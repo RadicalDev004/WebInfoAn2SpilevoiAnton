@@ -3,6 +3,7 @@ define('DIRECTOR_SITE', __DIR__);
 define('SLASH', DIRECTORY_SEPARATOR);
 
 function autoload($class) {
+    //echo "Searching for $class <br>";
     $folders = ['util', 'models', 'controllers', 'views'];
     foreach ($folders as $folder) {
         $file = DIRECTOR_SITE . SLASH . $folder . SLASH . strtolower($class) . '.php';

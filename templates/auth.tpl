@@ -16,7 +16,7 @@
     <div class="container">
         <div id="loginForm" class="form-section active">
             <h2>Login</h2>
-            <form action="/project/auth/login" method="POST">
+            <form action="/WebInfoAn2SpilevoiAnton/auth/login" method="POST">
                 <input type="text" name="username" placeholder="Utilizator" required><br>
                 <input type="password" name="password" placeholder="Parolă" required><br>
                 <button type="submit">Login</button>
@@ -26,7 +26,7 @@
 
         <div id="registerForm" class="form-section">
             <h2>Înregistrare</h2>
-            <form action="/project/auth/register" method="POST">
+            <form action="/WebInfoAn2SpilevoiAnton/auth/register" method="POST">
                 <input type="text" name="username" placeholder="Utilizator" required><br>
                 <input type="password" name="password" placeholder="Parolă" required><br>
                 <button type="submit">Înregistrează-te</button>

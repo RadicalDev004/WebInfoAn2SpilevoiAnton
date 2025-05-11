@@ -7,6 +7,14 @@ class ViewAuth {
     }
 
     public function oferaVizualizare() {
-        return "<h2>$this->message</h2>";
+        // Render the existing HTML template file
+        ob_start();
+        readfile("templates/auth.tpl");
+        $output = ob_get_clean();
+
+        // Append a <script> tag at the end (after the HTML)
+        $output .= "<script>alert('" . addslashes($this->message) . "');</script>";
+
+        return $output;
     }
 }

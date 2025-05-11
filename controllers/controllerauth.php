@@ -20,11 +20,8 @@ class ControllerAuth extends Controller {
 
     public function login($username, $password) {
         if ($this->model->autentifica($username, $password)) {
-            $this->view->incarcaDatele("Autentificare reușită! Bine ai venit, $username.");
-            echo $this->view->oferaVizualizare();
-            sleep(3); 
-            header("Location: /project/Mesaje/afiseazaMesaje"); 
-            exit;
+            //$this->view->incarcaDatele("Autentificare reușită! Bine ai venit, $username.");    
+            header("Location: /WebInfoAn2SpilevoiAnton/home/index");     
         } else {
             $this->view->incarcaDatele("Autentificare eșuată. Verifică datele.");
         }
