@@ -55,13 +55,26 @@
 <body>
 
 <header>
-    <div><h1>{{headerTitle}}</h1></div>
+    
+<div style="display: flex; align-items: center; gap: 1em;">
+    <h1 style="margin: 0;">{{headerTitle}}</h1>
+    <button type="button"
+        onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/favorites'"
+        style="font-size: 3em; background: none; border: none; color: #aaa; cursor: pointer; transform: translateY(-5px); " onmouseover="this.style.color='gold'" onmouseout="this.style.color='#aaa'">
+        ★
+    </button>
+</div>
 
-    <form class="search-bar" id="searchForm" style="display: flex; align-items: center; gap: 0.5em;">
+    <form class="search-bar" id="searchForm"
+      style="display: flex; gap: 0.5em; margin-left: auto;">
         {{back_from_search}}
         <input type="text" id="searchInput" name="query" placeholder="Caută o carte..."
                style="padding: 0.5em; border: none; border-radius: 5px;">
     </form>
+    <button type="button"
+    onclick="window.location.href='/WebInfoAn2SpilevoiAnton/settings/index'"
+    style="width: 36px; height: 36px; border-radius: 50%; background-color: white; color: #333; border: 1px solid #ccc; cursor: pointer; font-weight: bold; margin-left: 1em;">⚙
+</button>
 </header>
 
     <main class="container">

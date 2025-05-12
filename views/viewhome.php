@@ -3,9 +3,10 @@ class ViewHome {
     private $templatePath = 'templates/home.tpl';
     private $vars = [];
 
-    public function incarcaDatele($books, $search = false) {
+    public function incarcaDatele($books, $search = false, $searchTerm = "") {
         $cardsHtml = '';
         //debug::printArray($books);
+        $cnt = 0;
 
         foreach ($books as $book) {
             $cardsHtml .= "
@@ -18,17 +19,21 @@ class ViewHome {
                     </a>
                 </div>
             ";
+            $cnt = $cnt + 1;
         }
         $backfromsearch = "<button type='button'
             onclick=\"window.location.href='/WebInfoAn2SpilevoiAnton/home/index'\"
             style='padding: 0.5em 1em; background-color: #555; color: white; border: none; border-radius: 4px; cursor: pointer;'>
             X
         </button>";
+        
+        $title = 'Lecturi';
+        if($search) $title = 'Caută';
 
         $this->vars = [
             '{{title}}' => 'Catalog Cărți',
-            '{{headerTitle}}' => 'Lecturi',
-            '{{bookCards}}' => $cardsHtml ,
+            '{{headerTitle}}' => $title,
+            '{{bookCards}}' => $cnt > 0 ? $cardsHtml : '<h2>Nu există nicio carte care sa se conțină "'.$searchTerm.'"!</h2>' ,
             '{{back_from_search}}' => $search ? $backfromsearch : ''
         ];
     }

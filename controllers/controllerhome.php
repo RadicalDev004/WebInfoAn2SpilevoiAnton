@@ -19,7 +19,7 @@ class ControllerHome extends Controller {
 
     public function search($query) {
         $books = $this->model->searchBooks($query);
-        $this->view->incarcaDatele($books, true);
+        $this->view->incarcaDatele($books, true, $query);
         echo $this->view->oferaVizualizare();
     }
 }
