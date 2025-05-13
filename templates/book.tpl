@@ -155,6 +155,57 @@
     cursor: pointer;
     font-weight: bold;
 }
+.progress-section {
+    max-width: 800px;
+    margin: 2em auto 0;
+    background: #fff;
+    padding: 1.5em;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+.progress-section h3 {
+    margin-top: 0;
+    margin-bottom: 1em;
+    font-size: 1.2em;
+    color: #333;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    border-radius: 5px;
+    width: 100%;
+    background: linear-gradient(to right, #0073e6 0%, #e0e0e0 0%);
+    pointer-events: none; /* optional */
+    border: none;
+}
+
+/* Remove the knob */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 0;
+    height: 0;
+    background: transparent;
+    border: none;
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 0;
+    height: 0;
+    background: transparent;
+    border: none;
+}
+
+input[type=range]::-ms-thumb {
+    width: 0;
+    height: 0;
+    background: transparent;
+    border: none;
+}
+
+
 
     </style>
 </head>
@@ -179,16 +230,43 @@
             <p {{hide}}><strong>Autor: </strong> {{author}}</p>
             <p {{hide}}><strong>An: </strong> {{year}}</p>
             <p {{hide}}><strong>Editura: </strong> {{publisher}}</p>
-            <p {{hide}}><strong>Rating: </strong>{{avarage_rating}} /5★</p>
+            <p {{hide}}><strong>Pagini: </strong> {{total_pages}}</p>
+            <p {{hide}} style='color: gold;'><strong style='color: black; !important;'>Rating: </strong>{{avarage_rating}} /5★</p>
             <p><strong>Descriere: </strong><br>{{description}}</p>           
         </div>
     </div>
+    
+        <div class="progress-section" {{hide}}>
+    <h3>Progres lectură</h3>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 1em;">
+        
+        <!-- Left side: total pages and slider with percentage -->
+        <div style="flex: 1; display: flex; align-items: center; gap: 0.8em;">
+            <span id="totalPagesLabel">{{pages_read}}</span>
+            <input type="range" id="progressSlider" min="0" max="100" value="0" 
+                   style="flex-grow: 1; pointer-events: none;">
+            <span id="progressPercent">0%</span>
+        </div>
+        
+        <!-- Right side: input + button -->
+        <div style="display: flex; align-items: center; gap: 0.5em;">
+            <input type="number" id="pagesInput" placeholder="Pagini citite" 
+                   style="width: 100px; padding: 0.3em;">
+            <button onclick="updateProgress2()" 
+                    style="padding: 0.4em 0.8em; background-color: #0073e6; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Actualizează
+            </button>
+        </div>
+    </div>
+</div>
 
+
+    
 
     <div class="review-section" {{hide}}>
         <h3>Adaugă o recenzie</h3>
-        <form method="post" action="/WebInfoAn2SpilevoiAnton/book/submitReview/{{book_id}}">
-            <textarea name="review" placeholder="Scrie recenzia ta aici..."></textarea>
+        <form id="reviewForm" onsubmit="submitReview(event)">
+            <textarea name="review" id="reviewInput" placeholder="Scrie recenzia ta aici..."></textarea>
 
             <div class="star-input">               
                 <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>                
@@ -202,10 +280,67 @@
         </form>
         
     </div>
+    
     <div class="rating-section"{{hide}}>
     <h3>Recenzii utilizatori</h3>
     {{user_reviews}}
     </div>
+    <script>
+function submitReview(event) {
+    event.preventDefault();
+    console.log("text");
+
+    const bookId = '{{book_id}}';
+    const text = encodeURIComponent(document.getElementById('reviewInput').value.trim());
+    const ratingInput = document.querySelector('input[name="rating"]:checked');
+    const rating = ratingInput ? -ratingInput.value + 6 : 1;
+
+    if (!text || !rating) {
+        alert("Completează recenzia și selectează un rating.");
+        return;
+    }
+    
+    const url = `/WebInfoAn2SpilevoiAnton/book/submitReview/${bookId}/{{username}}/${text}/${rating}`;
+    window.location.href = url;
+}
+let totalPages = {{total_pages}};  // Replace with actual total if available
+
+function updateProgress() {
+    const input = document.getElementById('pagesInput');
+    const slider = document.getElementById('progressSlider');
+    const display = document.getElementById('progressPercent');
+
+    let pagesRead = {{pages_read}};
+
+    if (pagesRead > totalPages) pagesRead = totalPages;
+
+    const percent = Math.round((pagesRead / totalPages) * 100);
+    slider.value = percent;
+    display.textContent = percent + "%";
+
+    // Update slider background gradient
+    slider.style.background = `linear-gradient(to right, #0073e6 ${percent}%, #e0e0e0 ${percent}%)`;
+}
+function updateProgress2()
+{
+    const input = document.getElementById('pagesInput');
+    const slider = document.getElementById('progressSlider');
+    const display = document.getElementById('progressPercent');
+    const bookId = '{{book_id}}';
+
+    let pagesRead = parseInt(input.value);
+    
+    if (isNaN(pagesRead)) {
+        alert("Introduceți un număr valid de pagini.");
+        return;
+    }
+    
+    const url = `/WebInfoAn2SpilevoiAnton/book/changeProgress/${bookId}/{{username}}/${pagesRead}`;
+    window.location.href = url;
+}
+updateProgress();
+</script>
     <br><br>
+    
 </body>
 </html>

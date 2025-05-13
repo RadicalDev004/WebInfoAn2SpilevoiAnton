@@ -50,7 +50,46 @@
             font-size: 0.9em;
             color: #555;
         }
+        .star-button {
+    font-size: 1.5em;
+    background: none;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.star-button:hover {
+    color: gold;
+}
+
+.star-button.selected {
+    color: gold;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 0;
+    height: 0;
+    background: transparent;
+    border: none;
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 0;
+    height: 0;
+    background: transparent;
+    border: none;
+}
+
+input[type=range]::-ms-thumb {
+    width: 0;
+    height: 0;
+    background: transparent;
+    border: none;
+}
     </style>
+    
 </head>
 <body>
 
@@ -59,8 +98,8 @@
 <div style="display: flex; align-items: center; gap: 1em;">
     <h1 style="margin: 0;">{{headerTitle}}</h1>
     <button type="button"
-        onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/favorites'"
-        style="font-size: 3em; background: none; border: none; color: #aaa; cursor: pointer; transform: translateY(-5px); " onmouseover="this.style.color='gold'" onmouseout="this.style.color='#aaa'">
+        onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/{{favorites_button_action}}'"
+        style="font-size: 3em; background: none; border: none; color: {{favorites_selected}}; cursor: pointer; transform: translateY(-5px);">
         ★
     </button>
 </div>
@@ -90,5 +129,15 @@ document.getElementById('searchForm').addEventListener('submit', function(e) {
         window.location.href = `/WebInfoAn2SpilevoiAnton/home/search/${encodeURIComponent(query)}`;
     }
 });
+function toggleFavorite(button) {
+    const bookId = button.getAttribute('data-book-id');
+
+    // Optionally send request to backend here
+    // fetch(`/WebInfoAn2SpilevoiAnton/home/favorite/${bookId}`)
+
+    button.classList.toggle('selected');
+    const url = `/WebInfoAn2SpilevoiAnton/home/toggleFavorite/${bookId}/{{from}}{{params}}`;
+    window.location.href = url;
+}
 </script>
 </html>
