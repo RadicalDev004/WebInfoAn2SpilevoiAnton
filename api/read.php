@@ -1,0 +1,71 @@
+<?php
+session_start();
+
+define('SLASH', DIRECTORY_SEPARATOR);
+require_once 'C:\xampp\htdocs\WebInfoAn2SpilevoiAnton' . SLASH . 'util' . SLASH . 'database.php';
+
+header('Content-Type: application/json');
+
+if (!isset($_SESSION['user'])) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Not authenticated']);
+    exit;
+}
+
+$rawData = file_get_contents('php://input');
+$data = json_decode($rawData, true);
+
+if (!isset($data['pages'], $data['book_id'])) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Missing pages or book_id']);
+    exit;
+}
+
+$pages = (int) $data['pages'];
+$bookId = (int) $data['book_id'];
+$username = $_SESSION['user'];
+
+$db = Database::getInstance()->getConnection();
+
+try {
+    setBookProgress($db, $bookId, $username, $pages);
+    echo json_encode(['status' => 'ok']);
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['error' => 'DB error: ' . $e->getMessage()]);
+    exit;
+}
+
+function setBookProgress($db, $bookId, $user, $pages) {
+    $stmt = $db->prepare("SELECT COUNT(*) FROM progress WHERE book_id = ? AND username = ?");
+    $stmt->execute([$bookId, $user]);
+
+    if ($stmt->fetchColumn() > 0) {
+        $prev = getBookProgress($db, $bookId, $user);
+        $pgs = getBookPages($db, $bookId);
+        $newVal = max(0, min($pgs, $prev + $pages));
+
+        $stmt = $db->prepare("UPDATE progress SET pages = ? WHERE book_id = ? AND username = ?");
+        $stmt->execute([$newVal, $bookId, $user]);
+    } else {
+        $stmt = $db->prepare("INSERT INTO progress (book_id, username, pages) VALUES (?, ?, ?)");
+        $stmt->execute([$bookId, $user, $pages]);
+    }
+}
+
+function getBookPages($db, $bookId) {
+    $stmt = $db->prepare("SELECT pagini FROM books WHERE id = ?");
+    $stmt->execute([$bookId]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $row ? (int)$row['pagini'] : 0;
+}
+
+function getBookProgress($db, $bookId, $user) {
+    $stmt = $db->prepare("SELECT pages FROM progress WHERE book_id = ? AND username = ?");
+    $stmt->execute([$bookId, $user]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $row ? (int)$row['pages'] : 0;
+}
+

@@ -1,7 +1,9 @@
 RewriteEngine On
 RewriteBase /WebInfoAn2SpilevoiAnton/
 
+RewriteCond %{REQUEST_URI} ^/WebInfoAn2SpilevoiAnton/api/
+RewriteRule ^ - [L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
 RewriteRule ^(.*)$ index.php [QSA,L]

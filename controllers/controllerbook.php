@@ -30,16 +30,10 @@ class ControllerBook extends Controller {
         $user = $_SESSION['user'];
         $book = $this->model->getBookById($id);
         $reviews = $this->model->getBookReviews($id);
-        $stars = $this->model->getBookAvarage($id);
+        $average = $this->model->getBookAverage($id);
         $pages = $this->model->getBookPages($id);   
         $progress = $this->model->getBookProgress($id, $user);   
-        
-        $average = 0;
-        $values = array_column($stars, 'rating');
-        if (!empty($values)) {
-            $average = array_sum($values) / count($values);
-        }
-        $average = round($average, 1);     
+         
 
         if (is_array($book) && !empty($book)) {
             $this->view->incarcaDatele($book, $reviews, $average, $pages, $progress, $id);

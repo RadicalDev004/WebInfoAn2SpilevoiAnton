@@ -132,12 +132,29 @@ document.getElementById('searchForm').addEventListener('submit', function(e) {
 function toggleFavorite(button) {
     const bookId = button.getAttribute('data-book-id');
 
-    // Optionally send request to backend here
-    // fetch(`/WebInfoAn2SpilevoiAnton/home/favorite/${bookId}`)
-
     button.classList.toggle('selected');
-    const url = `/WebInfoAn2SpilevoiAnton/home/toggleFavorite/${bookId}/{{from}}{{params}}`;
-    window.location.href = url;
+    
+    fetch('/WebInfoAn2SpilevoiAnton/api/favorite.php', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ book_id: bookId })
+})
+.then(res => {
+    return res.text();                          
+})
+.then(text => {  
+    try {
+        const json = JSON.parse(text);           
+    } catch (e) {
+        console.error('JSON parse error:', e);
+         button.classList.toggle('selected');
+    }
+})
+.catch(err => {
+     button.classList.toggle('selected');
+});
 }
 </script>
 </html>

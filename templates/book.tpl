@@ -252,7 +252,7 @@ input[type=range]::-ms-thumb {
         <div style="display: flex; align-items: center; gap: 0.5em;">
             <input type="number" id="pagesInput" placeholder="Pagini citite" 
                    style="width: 100px; padding: 0.3em;">
-            <button onclick="updateProgress2()" 
+            <button onclick="updateProgressAsync()" 
                     style="padding: 0.4em 0.8em; background-color: #0073e6; color: white; border: none; border-radius: 4px; cursor: pointer;">
                 Actualizează
             </button>
@@ -300,28 +300,53 @@ function submitReview(event) {
         return;
     }
     
-    const url = `/WebInfoAn2SpilevoiAnton/book/submitReview/${bookId}/{{username}}/${text}/${rating}`;
-    window.location.href = url;
+    
+    fetch('/WebInfoAn2SpilevoiAnton/api/review.php', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ book_id : bookId, text : text, stars : rating })
+})
+.then(res => {
+    return res.text();                          
+})
+.then(text => {  
+    console.log(text);
+    try {
+        const json = JSON.parse(text);    
+        location.reload();       
+    } catch (e) {
+        console.error('JSON parse error:', e);
+    }
+})
+.catch(err => {
+     
+});
 }
-let totalPages = {{total_pages}};  // Replace with actual total if available
+let totalPages = {{total_pages}};
+let progress = {{pages_read}};
 
-function updateProgress() {
+function updateProgress(newPages) {
     const input = document.getElementById('pagesInput');
     const slider = document.getElementById('progressSlider');
     const display = document.getElementById('progressPercent');
+    const pages = document.getElementById('totalPagesLabel');
 
-    let pagesRead = {{pages_read}};
+    progress = progress + newPages;
 
-    if (pagesRead > totalPages) pagesRead = totalPages;
+    if (progress > totalPages) progress = totalPages;
+    if(progress < 0) progress = 0;
 
-    const percent = Math.round((pagesRead / totalPages) * 100);
+    const percent = Math.round((progress / totalPages) * 100);
     slider.value = percent;
     display.textContent = percent + "%";
+    
+    pages.textContent = progress;
 
-    // Update slider background gradient
     slider.style.background = `linear-gradient(to right, #0073e6 ${percent}%, #e0e0e0 ${percent}%)`;
 }
-function updateProgress2()
+function updateProgressAsync()
 {
     const input = document.getElementById('pagesInput');
     const slider = document.getElementById('progressSlider');
@@ -335,10 +360,35 @@ function updateProgress2()
         return;
     }
     
-    const url = `/WebInfoAn2SpilevoiAnton/book/changeProgress/${bookId}/{{username}}/${pagesRead}`;
-    window.location.href = url;
+    updateProgress(pagesRead);
+    
+    //const url = `/WebInfoAn2SpilevoiAnton/book/changeProgress/${bookId}/{{username}}/${pagesRead}`;
+    //window.location.href = url;
+    
+    fetch('/WebInfoAn2SpilevoiAnton/api/read.php', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ pages: pagesRead, book_id : bookId })
+})
+.then(res => {
+    return res.text();                          
+})
+.then(text => {  
+    try {
+        const json = JSON.parse(text);           
+    } catch (e) {
+        console.error('JSON parse error:', e);
+        updateProgress(-pagesRead);
+    }
+})
+.catch(err => {
+     updateProgress(-pagesRead);
+     
+});
 }
-updateProgress();
+updateProgress(0);
 </script>
     <br><br>
     

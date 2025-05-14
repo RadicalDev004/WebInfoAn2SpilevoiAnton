@@ -96,4 +96,11 @@ class ModelHome {
         
         return $pgs ? $pgs['pages'] : 0;
     }
+    
+    public function getBookAverage($id) {
+        $stmt = $this->db->prepare("SELECT AVG(rating) as avg_rating FROM reviews WHERE book_id = ?");
+        $stmt->execute([$id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return round($result['avg_rating'] ?? 0, 2);
+    }
 }

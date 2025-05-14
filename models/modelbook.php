@@ -36,10 +36,11 @@ class ModelBook {
         $stmt->execute([$id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function getBookAvarage($id) {
-        $stmt = $this->db->prepare("SELECT rating FROM reviews WHERE book_id = ?");
+    public function getBookAverage($id) {
+        $stmt = $this->db->prepare("SELECT AVG(rating) as avg_rating FROM reviews WHERE book_id = ?");
         $stmt->execute([$id]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return round($result['avg_rating'] ?? 0, 2);
     }
     
     

@@ -13,7 +13,9 @@ class ViewHome {
             if($favo && !$fav) continue;
             $selectedClass = $fav ? 'selected' : '';
             $progressPercent = $model->getBookProgress($book['id']) / $book['pagini'] * 100;
+            $stars = $model->getBookAverage($book['id']);
             if($progressPercent == 0) $progressPercent = 1;
+            if($stars == 0) $stars = '-';
             $cardsHtml .= "
     <div class='book-card'>
         <div style='width: 100%; height: 250px; background-color: #e0e0e0; border-radius: 4px;
@@ -24,7 +26,7 @@ class ViewHome {
         <h3>" . htmlspecialchars($book['titlu']) . "</h3>
         <p><strong>Autor:</strong> " . htmlspecialchars($book['autor']) . "</p>
         <p><strong>An:</strong> " . htmlspecialchars($book['an']) . "</p>
-        <p><strong>Rating: </strong>3/5★</p>
+        <p style='color: gold;'><strong style='color: black;'>Rating: </strong><b>$stars</b>/5★</p>
 
         <!-- Progress Slider -->
         <div style='display: flex; align-items: center; gap: 0.5em; margin-top: 10px;'>
