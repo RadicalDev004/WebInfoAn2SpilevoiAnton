@@ -4,25 +4,8 @@ class ModelBook {
 
     public function __construct() {
         $this->db = Database::getInstance()->getConnection();
-        $this->db->exec("
-    CREATE TABLE IF NOT EXISTS reviews (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        book_id INTEGER,
-        username TEXT,
-        text TEXT,
-        rating INTEGER,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-");
-        $this->db->exec("
-    CREATE TABLE IF NOT EXISTS progress (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        book_id INTEGER,
-        username TEXT,
-        pages INTEGER,
-        UNIQUE(book_id, username)
-    )
-");
+        
+        
     }
 
     public function getBookById($id) {
@@ -37,10 +20,10 @@ class ModelBook {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getBookAverage($id) {
-        $stmt = $this->db->prepare("SELECT AVG(rating) as avg_rating FROM reviews WHERE book_id = ?");
+        $stmt = $this->db->prepare("SELECT ROUND(AVG(rating), 2) as avg_rating FROM reviews WHERE book_id = ?");
         $stmt->execute([$id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return round($result['avg_rating'] ?? 0, 2);
+        return $result['avg_rating'] ?? 0;
     }
     
     
@@ -77,7 +60,7 @@ class ModelBook {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM progress WHERE book_id = ? AND username = ?");
         $stmt->execute([$id, $user]);
 
-        if ($stmt->fetchColumn() > 0) {
+        if ((int)$stmt->fetchColumn() > 0) {
             $prev = $this->getBookProgress($id, $user);
             $pgs = $this->getBookPages($id);
             $newVal = $prev + $pages;

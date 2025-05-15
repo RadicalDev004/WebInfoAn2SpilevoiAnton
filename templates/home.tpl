@@ -40,6 +40,16 @@
             width: 200px;
             padding: 1em;
         }
+        .separator {
+    flex-basis: 100%; /* Forces it to take full width of the container */
+    text-align: center;
+    margin: 2em 0;
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #111;
+    border-top: 1px solid #555;
+    padding-top: 1em;
+}
 
         .book-card h3 {
             font-size: 1.1em;
@@ -59,9 +69,6 @@
     transition: color 0.2s;
 }
 
-.star-button:hover {
-    color: gold;
-}
 
 .star-button.selected {
     color: gold;
@@ -110,6 +117,18 @@ input[type=range]::-ms-thumb {
         <input type="text" id="searchInput" name="query" placeholder="Caută o carte..."
                style="padding: 0.5em; border: none; border-radius: 5px;">
     </form>
+    <button type="button" id="searchButton"
+    style="padding: 0.5em 1em; background-color: #555; color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 0.5em;">
+    Search
+</button>
+    
+    <select id="searchType" name="type" style="padding: 0.5em; border-radius: 5px; margin-left: 0.5em;">
+    <option value="titlu">titlu</option>
+    <option value="autor">autor</option>   
+    <option value="editura">editura</option>
+    <option value="an">an</option>
+  </select>
+  
     <button type="button"
     onclick="window.location.href='/WebInfoAn2SpilevoiAnton/settings/index'"
     style="width: 36px; height: 36px; border-radius: 50%; background-color: white; color: #333; border: 1px solid #ccc; cursor: pointer; font-weight: bold; margin-left: 1em;">⚙
@@ -118,17 +137,34 @@ input[type=range]::-ms-thumb {
 
     <main class="container">
         {{bookCards}}
+        <div class="separator">External Library</div>
+        {{extra_bookCards}}
     </main>
 
 </body>
 <script>
+document.getElementById('searchInput').value = "{{search_term}}";
+document.getElementById('searchType').value = "{{search_type}}";
+
 document.getElementById('searchForm').addEventListener('submit', function(e) {
     e.preventDefault();
+  const query = document.getElementById('searchInput').value.trim();
+  const type = document.getElementById('searchType').value;
+
+  if (query) {
+    window.location.href = `/WebInfoAn2SpilevoiAnton/home/search/${type}/${encodeURIComponent(query)}`;
+  }
+});
+
+document.getElementById('searchButton').addEventListener('click', function () {
     const query = document.getElementById('searchInput').value.trim();
+    const type = document.getElementById('searchType').value;
+
     if (query) {
-        window.location.href = `/WebInfoAn2SpilevoiAnton/home/search/${encodeURIComponent(query)}`;
+        window.location.href = `/WebInfoAn2SpilevoiAnton/home/search/${type}/${encodeURIComponent(query)}`;
     }
 });
+
 function toggleFavorite(button) {
     const bookId = button.getAttribute('data-book-id');
 

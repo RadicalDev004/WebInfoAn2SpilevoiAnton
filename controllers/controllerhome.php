@@ -14,7 +14,7 @@ class ControllerHome extends Controller {
             $this->index();
         } else if ($actiune === 'search') {
             //debug::printArray($parametri);
-            $this->search($parametri[0]);
+            $this->search($parametri[0], $parametri[1]);
         }
         else if ($actiune === 'toggleFavorite') {
             //debug::printArray($parametri);
@@ -39,14 +39,16 @@ class ControllerHome extends Controller {
 
     public function index($fav = false) {
         $books = $this->model->getAllBooks();
-        $this->view->incarcaDatele($books, $this->model, $this->actiune , $this->parametri, $fav);
+        $this->view->incarcaDatele($books, [], $this->model, $this->actiune , $this->parametri, $fav);
         echo $this->view->oferaVizualizare();
+        
     }
 
-    public function search($query) {
-        $books = $this->model->searchBooks($query);
-        $this->view->incarcaDatele($books, $this->model, $this->actiune , $this->parametri, false, true, $query);
-        echo $this->view->oferaVizualizare();
+    public function search($type, $query) {
+        $books = $this->model->searchBooks($type, $query);
+        $externalBooks = $this->model->getExternalBooks($type, $query);
+        $this->view->incarcaDatele($books, $externalBooks, $this->model, $this->actiune , $this->parametri, false, true, $query);
+        echo $this->view->oferaVizualizare();        
     }
     
     public function toggleFavorite($id) {

@@ -293,7 +293,7 @@ function submitReview(event) {
     const bookId = '{{book_id}}';
     const text = encodeURIComponent(document.getElementById('reviewInput').value.trim());
     const ratingInput = document.querySelector('input[name="rating"]:checked');
-    const rating = ratingInput ? -ratingInput.value + 6 : 1;
+    const rating = ratingInput ? -ratingInput.value + 6 : 0;
 
     if (!text || !rating) {
         alert("Completează recenzia și selectează un rating.");
@@ -361,9 +361,6 @@ function updateProgressAsync()
     }
     
     updateProgress(pagesRead);
-    
-    //const url = `/WebInfoAn2SpilevoiAnton/book/changeProgress/${bookId}/{{username}}/${pagesRead}`;
-    //window.location.href = url;
     
     fetch('/WebInfoAn2SpilevoiAnton/api/read.php', {
     method: 'POST',

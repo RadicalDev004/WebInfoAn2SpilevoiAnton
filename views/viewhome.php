@@ -3,8 +3,9 @@ class ViewHome {
     private $templatePath = 'templates/home.tpl';
     private $vars = [];
 
-    public function incarcaDatele($books, $model, $from, $parametri, $favo = false, $search = false, $searchTerm = "") {
+    public function incarcaDatele($books, $externalBooks, $model, $from, $parametri, $favo = false, $search = false, $searchTerm = "") {
         $cardsHtml = '';
+        $extraCardsHtml = '';
         //debug::printArray($books);
         $cnt = 0;
 
@@ -26,6 +27,7 @@ class ViewHome {
         <h3>" . htmlspecialchars($book['titlu']) . "</h3>
         <p><strong>Autor:</strong> " . htmlspecialchars($book['autor']) . "</p>
         <p><strong>An:</strong> " . htmlspecialchars($book['an']) . "</p>
+        <p><strong>Editura:</strong> " . htmlspecialchars($book['editura']) . "</p>
         <p style='color: gold;'><strong style='color: black;'>Rating: </strong><b>$stars</b>/5★</p>
 
         <!-- Progress Slider -->
@@ -52,6 +54,31 @@ class ViewHome {
 
             $cnt = $cnt + 1;
         }
+        //debug::printArray($externalBooks);
+        if(!empty($externalBooks))
+        foreach ($externalBooks['items'] as $book) {
+ 
+            $extraCardsHtml .= "
+    <div class='book-card'>
+        <div style='width: 100%; height: 250px; border-radius: 4px; overflow: hidden; margin-bottom: 0.5em;'>
+            <img src='".($book['volumeInfo']['imageLinks']['thumbnail'] ?? '')."' alt='Copertă'
+            style='width: 100%; height: 100%; object-fit: cover; display: block;'
+         onerror=\"this.style.display='none'; this.parentElement.innerHTML='<div style=\\'width: 100%; height: 100%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #777; font-size: 1.2em;\\'>Copertă</div>';\">
+        </div>
+
+        <h3>" . ($book['volumeInfo']['title'] ?? '-') . "</h3>
+        <p><strong>Autor:</strong> " . ($book['volumeInfo']['authors'][0] ?? '-') . "</p>
+        <p><strong>An:</strong> " . ($book['volumeInfo']['publishedDate'] ?? '-') . "</p>
+        <p><strong>Editura:</strong> " . ($book['volumeInfo']['publisher'] ?? '-') . "</p>
+
+        <div style='display: flex; justify-content: space-between; align-items: center; margin-top: 10px;'>
+            <a href='".($book['volumeInfo']['infoLink'] ?? '') . "'target='_blank' rel='noopener noreferrer'>
+                <button>Vezi detalii</button>
+            </a>
+        </div>
+    </div>
+";
+        }
         $backfromsearch = "<button type='button'
             onclick=\"window.location.href='/WebInfoAn2SpilevoiAnton/home/index'\"
             style='padding: 0.5em 1em; background-color: #555; color: white; border: none; border-radius: 4px; cursor: pointer;'>
@@ -60,10 +87,13 @@ class ViewHome {
         
         $title = 'Lecturi';
         $emptyInfo = '';
+        $searchType = isset($parametri[0]) ? $parametri[0] : 'titlu';
+        
+        $searchTerm = urldecode($searchTerm);
         
         if($search){
             $title = 'Caută';
-            $emptyInfo = '<h2>Nu există nicio carte care sa se conțină "'.$searchTerm.'"!</h2>';
+            $emptyInfo = "<h2>Nu există nicio carte care sa se conțină '<b>$searchTerm</b>' in <b>$searchType</b>!</h2>";
         } 
         if($favo) {
             $title = 'Favorite';
@@ -74,13 +104,17 @@ class ViewHome {
         $this->vars = [
             '{{title}}' => 'Catalog Cărți',
             '{{headerTitle}}' => $title,
+            '{{search_term}}' => $searchTerm,
+            '{{search_type}}' => $searchType,
             '{{bookCards}}' => $cnt > 0 ? $cardsHtml : $emptyInfo,
+            '{{extra_bookCards}}' => $extraCardsHtml,
             '{{back_from_search}}' => $search ? $backfromsearch : '',
             '{{from}}' => $from,
             '{{favorites_selected}}' => $from === 'favorites' ? 'gold' : '#aaa',
             '{{favorites_button_action}}' => $from === 'favorites' ? 'index' : 'favorites',
             '{{params}}' => is_array($parametri) ? '/'.implode('/', $parametri) : ''
         ];
+        
     }
 
     public function oferaVizualizare() {
