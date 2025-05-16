@@ -11,7 +11,7 @@ class ModelHome {
         $count = $this->db->query("SELECT COUNT(*) FROM books")->fetchColumn();
         if ($count == 0) {
             $this->db->exec("
-INSERT INTO books (titlu, autor, an, editura, descriere, pagini) VALUES
+INSERT INTO books (title, author, year, publisher, description, pages) VALUES
 ('1984', 'George Orwell', 1949, 'Secker & Warburg', 'A dystopian novel depicting a terrifying vision of a totalitarian future society controlled through surveillance, censorship, and propaganda.', 328),
 ('To Kill a Mockingbird', 'Harper Lee', 1960, 'J.B. Lippincott & Co.', 'This Pulitzer Prize-winning novel addresses serious issues like racial injustice and moral growth as seen through the eyes of a young girl in the Deep South.', 281),
 ('Fahrenheit 451', 'Ray Bradbury', 1953, 'Ballantine Books', 'Set in a future where books are outlawed and firemen burn any that are found, this story explores the consequences of censorship and loss of critical thought.', 194),
@@ -48,6 +48,14 @@ INSERT INTO books (titlu, autor, an, editura, descriere, pagini) VALUES
         if (!in_array($type, $allowed)) {
             throw null;
         }
+        
+        switch($type) {
+            case 'titlu': $type = 'title'; break;
+            case 'autor': $type = 'author'; break;
+            case 'editura': $type = 'publisher'; break;
+            case 'an': $type = 'year'; break;
+        }
+        
         if($type === 'an' && gettype($query) != 'integer') return [];
         $stmt = $this->db->prepare("SELECT * FROM books WHERE $type ILIKE ?");
         $searchTerm = '%' . $query . '%';
@@ -60,12 +68,12 @@ INSERT INTO books (titlu, autor, an, editura, descriere, pagini) VALUES
         $nume = $_SESSION['user'];
         if($this->isBookFavorite($id))
         {
-            $stmt = $this->db->prepare("DELETE FROM favorites WHERE nume = ? AND id_carte = ?");
+            $stmt = $this->db->prepare("DELETE FROM favorites WHERE name = ? AND book_id = ?");
             $stmt->execute([$nume, $id]);
         }
         else
         {
-            $stmt = $this->db->prepare("INSERT INTO favorites (nume, id_carte) VALUES (?, ?)");
+            $stmt = $this->db->prepare("INSERT INTO favorites (name, book_id) VALUES (?, ?)");
             $stmt->execute([$nume, $id]);
         }
     }
@@ -73,10 +81,17 @@ INSERT INTO books (titlu, autor, an, editura, descriere, pagini) VALUES
     public function isBookFavorite($id)
     {
         $nume = $_SESSION['user'];
-        $stmt = $this->db->prepare("SELECT 1 FROM favorites WHERE nume = ? AND id_carte = ?");
+        $stmt = $this->db->prepare("SELECT 1 FROM favorites WHERE name = ? AND book_id = ?");
         $stmt->execute([$nume, $id]);
         return (bool)$stmt->fetchColumn();
     }
+    public function isBookFavoriteLink($link)
+    {
+        $id = $this->getExternalBookId($link);
+        if($id == 0) return false;
+        return $this->isBookFavorite($id);
+    }
+    
     public function getBookProgress($id)
     {
         $user = $_SESSION['user'];
@@ -99,11 +114,6 @@ INSERT INTO books (titlu, autor, an, editura, descriere, pagini) VALUES
         $allowed = ['titlu', 'autor', 'editura', 'an'];
         $query = urldecode($query);
         $query = trim(preg_replace('/\s+/', ' ', $query));
-        if (!in_array($type, $allowed) && $type === '') {
-            
-            return null;
-        }
-        
         $queryType;
         switch ($type) {
             case 'titlu':
@@ -124,5 +134,13 @@ INSERT INTO books (titlu, autor, an, editura, descriere, pagini) VALUES
         $response = file_get_contents($url);
         $data = json_decode($response, true);
         return $data;
+    }
+    
+
+    function getExternalBookId($link) {
+        $stmt = $this->db->prepare("SELECT id FROM books WHERE link = ?");
+        $stmt->execute([$link]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['id'] ?? 0;
     }
 }

@@ -20,20 +20,21 @@ class Database {
             $this->connection->exec("
             CREATE TABLE IF NOT EXISTS books (
                 id SERIAL PRIMARY KEY,
-                titlu TEXT NOT NULL,
-                autor TEXT NOT NULL,
-                an INTEGER CHECK (an >= 0),
-                editura TEXT,
-                descriere TEXT,
-                pagini INTEGER CHECK (pagini >= 0)
+                title TEXT,
+                author TEXT,
+                year INTEGER CHECK (year >= 0),
+                publisher TEXT,
+                description TEXT,
+                pages INTEGER CHECK (pages >= 0),
+                link TEXT
 );
 
         ");
         $this->connection->exec("
             CREATE TABLE IF NOT EXISTS favorites (
-                nume VARCHAR(255) NOT NULL,
-                id_carte INTEGER NOT NULL REFERENCES books(id) ON DELETE CASCADE,
-                PRIMARY KEY (nume, id_carte)
+                name VARCHAR(255),
+                book_id INTEGER NOT NULL REFERENCES books(id) ON DELETE CASCADE,
+                PRIMARY KEY (name, book_id)
 );
 
         ");

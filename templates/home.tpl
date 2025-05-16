@@ -167,6 +167,7 @@ document.getElementById('searchButton').addEventListener('click', function () {
 
 function toggleFavorite(button) {
     const bookId = button.getAttribute('data-book-id');
+    console.log(JSON.stringify({ book_id: bookId }));
 
     button.classList.toggle('selected');
     
@@ -181,11 +182,43 @@ function toggleFavorite(button) {
     return res.text();                          
 })
 .then(text => {  
+     console.log(text); 
     try {
         const json = JSON.parse(text);           
     } catch (e) {
         console.error('JSON parse error:', e);
          button.classList.toggle('selected');
+    }
+})
+.catch(err => {
+     button.classList.toggle('selected');
+});
+}
+
+function toggleFavoriteExternal(button, link) {
+    console.log(link);
+    console.log(JSON.stringify({ external: true, link: link }));
+    button.classList.toggle('selected');
+    
+    fetch('/WebInfoAn2SpilevoiAnton/api/favorite.php', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ external: true, link: link })
+    
+})
+.then(res => {
+    return res.text();                          
+})
+.then(text => { 
+    console.log(text); 
+    try {
+        const json = JSON.parse(text);           
+    } catch (e) {
+        
+        console.error('JSON parse error:', e);
+        button.classList.toggle('selected');
     }
 })
 .catch(err => {

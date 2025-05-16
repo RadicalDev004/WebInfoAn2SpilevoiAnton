@@ -10,10 +10,11 @@ class ViewHome {
         $cnt = 0;
 
         foreach ($books as $book) {
+            if(isset($book['link'])) continue;
             $fav = $model->isBookFavorite($book['id']);
             if($favo && !$fav) continue;
             $selectedClass = $fav ? 'selected' : '';
-            $progressPercent = $model->getBookProgress($book['id']) / $book['pagini'] * 100;
+            $progressPercent = $book['pages'] != 0 ? $model->getBookProgress($book['id']) / $book['pages'] * 100 : 0;
             $stars = $model->getBookAverage($book['id']);
             if($progressPercent == 0) $progressPercent = 1;
             if($stars == 0) $stars = '-';
@@ -24,10 +25,10 @@ class ViewHome {
             Copertă
         </div>
 
-        <h3>" . htmlspecialchars($book['titlu']) . "</h3>
-        <p><strong>Autor:</strong> " . htmlspecialchars($book['autor']) . "</p>
-        <p><strong>An:</strong> " . htmlspecialchars($book['an']) . "</p>
-        <p><strong>Editura:</strong> " . htmlspecialchars($book['editura']) . "</p>
+        <h3>" . htmlspecialchars($book['title']) . "</h3>
+        <p><strong>Autor:</strong> " . htmlspecialchars($book['author']) . "</p>
+        <p><strong>An:</strong> " . htmlspecialchars($book['year']) . "</p>
+        <p><strong>Editura:</strong> " . htmlspecialchars($book['publisher']) . "</p>
         <p style='color: gold;'><strong style='color: black;'>Rating: </strong><b>$stars</b>/5★</p>
 
         <!-- Progress Slider -->
@@ -57,7 +58,8 @@ class ViewHome {
         //debug::printArray($externalBooks);
         if(!empty($externalBooks))
         foreach ($externalBooks['items'] as $book) {
- 
+            $fav = $model->isBookFavoriteLink($book['selfLink']);
+            $selectedClass = $fav ? 'selected' : '';
             $extraCardsHtml .= "
     <div class='book-card'>
         <div style='width: 100%; height: 250px; border-radius: 4px; overflow: hidden; margin-bottom: 0.5em;'>
@@ -76,6 +78,13 @@ class ViewHome {
                 <button>Vezi detalii</button>
             </a>
         </div>
+        
+        <button type='button' style='font-size: 2em;'
+                class='star-button $selectedClass'
+                onclick='toggleFavoriteExternal(this, \"".$book['selfLink']."\" )'
+                data-book-id='external'>
+                ★
+            </button>
     </div>
 ";
         }

@@ -39,7 +39,8 @@ class ControllerHome extends Controller {
 
     public function index($fav = false) {
         $books = $this->model->getAllBooks();
-        $this->view->incarcaDatele($books, [], $this->model, $this->actiune , $this->parametri, $fav);
+        $externalBooks = $this->model->getExternalBooks('', '');
+        $this->view->incarcaDatele($books, $externalBooks, $this->model, $this->actiune , $this->parametri, $fav);
         echo $this->view->oferaVizualizare();
         
     }
