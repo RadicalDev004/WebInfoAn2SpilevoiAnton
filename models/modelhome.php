@@ -92,6 +92,19 @@ INSERT INTO books (title, author, year, publisher, description, pages) VALUES
         return $this->isBookFavorite($id);
     }
     
+    public function getExternalBookProgress($link)
+    {
+        $id = $this->getExternalBookId($link);
+        if($id == 0) return 0;
+        return $this->getBookProgress($id);
+    }
+    
+    public function getExternalAverage($link) {
+        $id = $this->getExternalBookId($link);
+        if($id == 0) return 0;
+        return $this->getBookAverage($id);
+    }
+    
     public function getBookProgress($id)
     {
         $user = $_SESSION['user'];
@@ -132,6 +145,13 @@ INSERT INTO books (title, author, year, publisher, description, pages) VALUES
         $query= urlencode($query);
         $url = 'https://www.googleapis.com/books/v1/volumes?q=+'.$queryType.':'.$query.'&startIndex=0&maxResults=40';
         $response = file_get_contents($url);
+        $data = json_decode($response, true);
+        return $data;
+    }
+    
+    function getExternalBookData($link)
+    {
+        $response = file_get_contents($link);
         $data = json_decode($response, true);
         return $data;
     }

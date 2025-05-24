@@ -12,7 +12,7 @@ class ViewBook {
         $this->template = file_get_contents('templates/book.tpl');
     }
 
-    public function incarcaDatele($bookData, $bookReviews, $average, $pages, $progress = 0, $id = -1) {
+    public function incarcaDatele($bookData, $bookReviews, $average, $pages, $progress = 0, $id = -1, $external = false, $link = '') {
         $name = $_SESSION['user'] ?? 'guest';
         if (is_array($bookData)) {
 
@@ -37,20 +37,45 @@ class ViewBook {
             }
             
         if (is_array($bookData)) {
-            $this->vars = [
-                '{{title}}' => safeHtml($bookData, 'titlu', '-'),
-                '{{author}}' => safeHtml($bookData, 'autor', '-'),
-                '{{year}}' => safeHtml($bookData, 'an', '-'),
-                '{{publisher}}' => safeHtml($bookData, 'editura', '-'),
-                '{{avarage_rating}}' => $average == 0 ? '-' : $average,
-                '{{user_reviews}}' => $reviewsHtml,
-                '{{book_id}}' => $id,
-                '{{hide}}' => '',
-                '{{username}}' => $name,
-                '{{total_pages}}' => $pages,
-                '{{pages_read}}' => $progress,
-                '{{description}}' => array_key_exists('descriere', $bookData) ? nl2br(htmlspecialchars($bookData['descriere'])) : '-'
-            ];
+            
+            if(!$external)
+            {
+                $this->vars = [
+                    '{{title}}' => safeHtml($bookData, 'title', '-'),
+                    '{{author}}' => safeHtml($bookData, 'author', '-'),
+                    '{{year}}' => safeHtml($bookData, 'year', '-'),
+                    '{{publisher}}' => safeHtml($bookData, 'publisher', '-'),
+                    '{{avarage_rating}}' => $average == 0 ? '-' : $average,
+                    '{{user_reviews}}' => $reviewsHtml,
+                    '{{book_id}}' => $id,
+                    '{{hide}}' => '',
+                    '{{link}}' => '',
+                    '{{url_cover}}' =>'',
+                    '{{username}}' => $name,
+                    '{{total_pages}}' => $pages,
+                    '{{pages_read}}' => $progress,
+                    '{{description}}' => array_key_exists('description', $bookData) ? nl2br(htmlspecialchars($bookData['description'])) : '-'
+                ];
+            }
+            else{
+                $this->vars = [
+                    '{{title}}' => $bookData['volumeInfo']['title'] ?? '-',
+                    '{{author}}' => $bookData['volumeInfo']['authors'][0] ?? '-',
+                    '{{year}}' => $bookData['volumeInfo']['publishedDate'] ?? '-',
+                    '{{publisher}}' => $bookData['volumeInfo']['publisher'] ?? '-',
+                    '{{avarage_rating}}' => $average == 0 ? '-' : $average,
+                    '{{user_reviews}}' => $reviewsHtml,
+                    '{{book_id}}' => $id,
+                    '{{url_cover}}' => $bookData['volumeInfo']['imageLinks']['thumbnail'] ?? '-',
+                    '{{hide}}' => '',
+                    '{{link}}' => $link,
+                    '{{username}}' => $name,
+                    '{{total_pages}}' => $pages,
+                    '{{pages_read}}' => $progress,
+                    '{{description}}' => $bookData['volumeInfo']['description'] ?? '-'
+                ];
+            }
+            
         } else {
             $this->vars = [
                 '{{title}}' => 'Eroare',

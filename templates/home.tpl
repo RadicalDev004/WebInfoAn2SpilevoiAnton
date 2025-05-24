@@ -39,7 +39,12 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
             width: 200px;
             padding: 1em;
+            position: relative;
         }
+        .external-card {
+    position: relative;
+    padding-bottom: 3em; /* Only external cards have this */
+}
         .separator {
     flex-basis: 100%; /* Forces it to take full width of the container */
     text-align: center;
@@ -94,6 +99,19 @@ input[type=range]::-ms-thumb {
     height: 0;
     background: transparent;
     border: none;
+}
+
+.link-extern {
+    position: absolute;
+    bottom: 1em;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+}
+
+.link-extern button {
+    width: 95%;
+    height: 2em;
 }
     </style>
     

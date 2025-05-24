@@ -222,8 +222,12 @@ input[type=range]::-ms-thumb {
 <body>
 
     <div class="book-container">
-        <div class="book-cover" {{hide}}>
-            Copertă
+        <div class='book-cover'>
+        <div style='width: 100%; height: 300px; border-radius: 4px; overflow: hidden; margin-bottom: 0em;'>
+            <img src='{{url_cover}}' alt='Copertă'
+            style='width: 100%; height: 100%; object-fit: cover; display: block;'
+         onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=&quot;width: 100%; height: 100%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #777; font-size: 1.2em;&quot;>Copertă</div>';">
+        </div>
         </div>
         <div class="book-details">
             <h2>{{title}}</h2>
@@ -306,7 +310,7 @@ function submitReview(event) {
     headers: {
         'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ book_id : bookId, text : text, stars : rating })
+    body: bookId != '0' ? JSON.stringify({ book_id : bookId, text : text, stars : rating }) :  JSON.stringify({ external : true, text : text, stars : rating, link : '{{link}}' })
 })
 .then(res => {
     return res.text();                          
@@ -352,8 +356,10 @@ function updateProgressAsync()
     const slider = document.getElementById('progressSlider');
     const display = document.getElementById('progressPercent');
     const bookId = '{{book_id}}';
+    
 
     let pagesRead = parseInt(input.value);
+    console.log(pagesRead);
     
     if (isNaN(pagesRead)) {
         alert("Introduceți un număr valid de pagini.");
@@ -367,7 +373,7 @@ function updateProgressAsync()
     headers: {
         'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ pages: pagesRead, book_id : bookId })
+    body: bookId != '0' ? JSON.stringify({ pages: pagesRead, book_id : bookId }) : JSON.stringify({ pages: pagesRead, external : true, link : '{{link}}' })
 })
 .then(res => {
     return res.text();                          

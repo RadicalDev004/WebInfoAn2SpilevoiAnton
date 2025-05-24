@@ -19,6 +19,12 @@ class ModelBook {
         $stmt->execute([$id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public function getExternalAverage($link) {
+        $id = $this->getExternalBookId($link);
+        if($id == 0) return 0;
+        return $this->getBookAverage($id);
+    }
     public function getBookAverage($id) {
         $stmt = $this->db->prepare("SELECT ROUND(AVG(rating), 2) as avg_rating FROM reviews WHERE book_id = ?");
         $stmt->execute([$id]);
@@ -39,11 +45,11 @@ class ModelBook {
     
     public function getBookPages($id)
     {
-        $stmt = $this->db->prepare("SELECT pagini FROM books WHERE id = ?");
+        $stmt = $this->db->prepare("SELECT pages FROM books WHERE id = ?");
         $stmt->execute([$id]);
         $pgs = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $pgs ? $pgs['pagini'] : 0;
+        return $pgs ? $pgs['pages'] : 0;
     }
     
     public function getBookProgress($id, $user)
@@ -73,5 +79,19 @@ class ModelBook {
             $stmt = $this->db->prepare("INSERT INTO progress (book_id, username, pages) VALUES (?, ?, ?)");
             $stmt->execute([$id, $user, $pages]);
         }
+    }
+    
+    function getExternalBookData($link)
+    {
+        $response = file_get_contents($link);
+        $data = json_decode($response, true);
+        return $data;
+    }
+    
+    function getExternalBookId($link) {
+        $stmt = $this->db->prepare("SELECT id FROM books WHERE link = ?");
+        $stmt->execute([$link]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['id'] ?? 0;
     }
 }

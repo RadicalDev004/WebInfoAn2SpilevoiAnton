@@ -10,25 +10,40 @@ class ViewHome {
         $cnt = 0;
 
         foreach ($books as $book) {
-            if(isset($book['link'])) continue;
+            $data = null;
+            $externalFav = false;
+            $externalProgress = 0;
+            if(isset($book['link'])){
+                if($model->isBookFavorite($book['id']) && $favo)
+                {
+                    $data = $model->getExternalBookData($book['link']);
+                    $externalFav = true;
+                    $externalProgress =  $data['volumeInfo']['pageCount'] != 0 ? $model->getBookProgress($book['id']) / $data['volumeInfo']['pageCount'] * 100 : 0;
+                }
+                else continue;
+            }
             $fav = $model->isBookFavorite($book['id']);
             if($favo && !$fav) continue;
+            
             $selectedClass = $fav ? 'selected' : '';
             $progressPercent = $book['pages'] != 0 ? $model->getBookProgress($book['id']) / $book['pages'] * 100 : 0;
+            if($externalProgress != 0) $progressPercent = $externalProgress;
             $stars = $model->getBookAverage($book['id']);
+            
             if($progressPercent == 0) $progressPercent = 1;
             if($stars == 0) $stars = '-';
             $cardsHtml .= "
-    <div class='book-card'>
-        <div style='width: 100%; height: 250px; background-color: #e0e0e0; border-radius: 4px;
-                    display: flex; align-items: center; justify-content: center; color: #777; font-size: 1.2em; margin-bottom: 0.5em;'>
-            Copertă
+    <div class='book-card".($externalFav ? " external-card" : "")."'>
+        <div style='width: 100%; height: 250px; border-radius: 4px; overflow: hidden; margin-bottom: 0.5em;'>
+            <img src='".($data['volumeInfo']['imageLinks']['thumbnail'] ?? '')."' alt='Copertă'
+            style='width: 100%; height: 100%; object-fit: cover; display: block;'
+         onerror=\"this.style.display='none'; this.parentElement.innerHTML='<div style=\\'width: 100%; height: 100%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #777; font-size: 1.2em;\\'>Copertă</div>';\">
         </div>
 
-        <h3>" . htmlspecialchars($book['title']) . "</h3>
-        <p><strong>Autor:</strong> " . htmlspecialchars($book['author']) . "</p>
-        <p><strong>An:</strong> " . htmlspecialchars($book['year']) . "</p>
-        <p><strong>Editura:</strong> " . htmlspecialchars($book['publisher']) . "</p>
+        <h3>" . htmlspecialchars($externalFav ? $data['volumeInfo']['title'] : $book['title']) . "</h3>
+        <p><strong>Autor:</strong> " . htmlspecialchars($externalFav ? $data['volumeInfo']['authors'][0] : $book['author']) . "</p>
+        <p><strong>An:</strong> " . htmlspecialchars($externalFav ? $data['volumeInfo']['publishedDate'] : $book['year']) . "</p>
+        <p><strong>Editura:</strong> " . htmlspecialchars($externalFav ? $data['volumeInfo']['publisher'] : $book['publisher']) . "</p>
         <p style='color: gold;'><strong style='color: black;'>Rating: </strong><b>$stars</b>/5★</p>
 
         <!-- Progress Slider -->
@@ -39,7 +54,7 @@ class ViewHome {
         </div>
 
         <div style='display: flex; justify-content: space-between; align-items: center; margin-top: 10px;'>
-            <a href='/WebInfoAn2SpilevoiAnton/book/view/" . urlencode($book['id']) . "'>
+            <a href=".($externalFav ? "'/WebInfoAn2SpilevoiAnton/book/viewExternal/" . urlencode(base64_encode($book['link']))  : "'/WebInfoAn2SpilevoiAnton/book/view/" . urlencode($book['id'])) . "'>
                 <button>Vezi detalii</button>
             </a>
 
@@ -49,7 +64,10 @@ class ViewHome {
                 data-book-id='" . $book['id'] . "'>
                 ★
             </button>
-        </div>
+        </div>".($externalFav ? "<div class='link-extern'>
+        <a href='".($data['volumeInfo']['infoLink'] ?? '')."' target='_blank' rel='noopener noreferrer'>
+            <button>Link extern</button>
+        </a> </div>" : "")."
     </div>
 ";
 
@@ -59,9 +77,14 @@ class ViewHome {
         if(!empty($externalBooks))
         foreach ($externalBooks['items'] as $book) {
             $fav = $model->isBookFavoriteLink($book['selfLink']);
+            $progressPercent = ($book['volumeInfo']['pageCount'] ?? 0) == 0 ? 0 : $model->getExternalBookProgress($book['selfLink']) / $book['volumeInfo']['pageCount'] * 100;
+            //$stars = $model->getBookAverage($book['id']);
+            $stars = $model->getExternalAverage($book['selfLink']);
+            if($stars == 0) $stars = '-';
+            if($progressPercent == 0) $progressPercent = 1;
             $selectedClass = $fav ? 'selected' : '';
             $extraCardsHtml .= "
-    <div class='book-card'>
+    <div class='book-card external-card'>
         <div style='width: 100%; height: 250px; border-radius: 4px; overflow: hidden; margin-bottom: 0.5em;'>
             <img src='".($book['volumeInfo']['imageLinks']['thumbnail'] ?? '')."' alt='Copertă'
             style='width: 100%; height: 100%; object-fit: cover; display: block;'
@@ -72,19 +95,34 @@ class ViewHome {
         <p><strong>Autor:</strong> " . ($book['volumeInfo']['authors'][0] ?? '-') . "</p>
         <p><strong>An:</strong> " . ($book['volumeInfo']['publishedDate'] ?? '-') . "</p>
         <p><strong>Editura:</strong> " . ($book['volumeInfo']['publisher'] ?? '-') . "</p>
+        <p style='color: gold;'><strong style='color: black;'>Rating: </strong><b>$stars</b>/5★</p>
+        
+        <!-- Progress Slider -->
+        <div style='display: flex; align-items: center; gap: 0.5em; margin-top: 10px;'>
+            <input type='range' min='0' max='100' value='" . $progressPercent . "'
+                   style='flex: 1; pointer-events: none; appearance: none; height: 8px; border-radius: 5px;
+                          background: linear-gradient(to right, #0073e6 " . $progressPercent . "%, #e0e0e0 " . $progressPercent . "%);' />
+        </div>
 
         <div style='display: flex; justify-content: space-between; align-items: center; margin-top: 10px;'>
-            <a href='".($book['volumeInfo']['infoLink'] ?? '') . "'target='_blank' rel='noopener noreferrer'>
+            <a href='/WebInfoAn2SpilevoiAnton/book/viewExternal/" . urlencode(base64_encode($book['selfLink'])) . "'>
                 <button>Vezi detalii</button>
             </a>
-        </div>
-        
-        <button type='button' style='font-size: 2em;'
+            
+            <button type='button' style='font-size: 2em;'
                 class='star-button $selectedClass'
                 onclick='toggleFavoriteExternal(this, \"".$book['selfLink']."\" )'
                 data-book-id='external'>
                 ★
             </button>
+        </div>
+        
+        <div class='link-extern'>
+        <a href='".($book['volumeInfo']['infoLink'] ?? '')."' target='_blank' rel='noopener noreferrer'>
+            <button>Link extern</button>
+        </a>
+    </div>
+        
     </div>
 ";
         }
@@ -132,5 +170,10 @@ class ViewHome {
             $html = str_replace($placeholder, $value, $html);
         }
         return $html;
+    }
+    
+    public function externalBookToComponent($book)
+    {
+        
     }
 }

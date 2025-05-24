@@ -5,7 +5,13 @@ class ControllerBook extends Controller {
 
         if ($actiune === 'view' && isset($parametri[0])) {
             $this->viewBook($parametri[0]);
-        } else if($actiune === 'submitReview') {
+        } else if ($actiune === 'viewExternal' && isset($parametri[0])) {
+            $encodedLink = urldecode($parametri[0]);
+            $link = base64_decode($encodedLink);
+            
+            $this->viewExternalBook($link);
+        } 
+        else if($actiune === 'submitReview') {
             if(count($parametri) != 4)
             {
                 
@@ -33,10 +39,41 @@ class ControllerBook extends Controller {
         $average = $this->model->getBookAverage($id);
         $pages = $this->model->getBookPages($id);   
         $progress = $this->model->getBookProgress($id, $user);   
+        
+        //debug::printArray($book);
+        //echo $progress ;
          
 
         if (is_array($book) && !empty($book)) {
             $this->view->incarcaDatele($book, $reviews, $average, $pages, $progress, $id);
+        } else {
+            $this->view->incarcaDatele("Cartea cu ID-ul $id nu există.");
+        }
+        echo $this->view->oferaVizualizare();
+    }
+    
+    private function viewExternalBook($link) {
+        $user = $_SESSION['user'];
+        $book = $this->model->getExternalBookData($link);
+        $id = $this->model->getExternalBookId($link);
+        
+        $reviews = null;
+        $average = null;
+        $pages = $book['volumeInfo']['pageCount'] ?? 0;   
+        $progress = 0; 
+        
+        //debug::printArray($book);
+        
+        if($id != 0)
+        {
+            $reviews = $this->model->getBookReviews($id);
+            $average = $this->model->getBookAverage($id);
+            $progress = $this->model->getBookProgress($id, $user);  
+        }   
+         
+
+        if (is_array($book) && !empty($book)) {
+            $this->view->incarcaDatele($book, $reviews, $average, $pages, $progress, $id, true, $link);
         } else {
             $this->view->incarcaDatele("Cartea cu ID-ul $id nu există.");
         }
