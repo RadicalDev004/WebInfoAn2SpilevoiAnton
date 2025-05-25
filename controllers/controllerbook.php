@@ -2,8 +2,11 @@
 class ControllerBook extends Controller {
     public function __construct($actiune, $parametri) {
         parent::__construct();
-
-        if ($actiune === 'view' && isset($parametri[0])) {
+        
+        $data = JWT::verifyAndResend();
+        $name = $data['username'];
+        
+        if ($actiune === 'view' && isset($parametri[0])) {            
             $this->viewBook($parametri[0]);
         } else if ($actiune === 'viewExternal' && isset($parametri[0])) {
             $encodedLink = urldecode($parametri[0]);
@@ -40,7 +43,9 @@ class ControllerBook extends Controller {
     }
 
     private function viewBook($id) {
-        $user = $_SESSION['user'];
+        $data = JWT::verifyAndResend();
+        $user = $data['username'];
+
         $book = $this->model->getBookById($id);
         $reviews = $this->model->getBookReviews($id);
         $average = $this->model->getBookAverage($id);
@@ -60,7 +65,9 @@ class ControllerBook extends Controller {
     }
     
     private function viewExternalBook($link) {
-        $user = $_SESSION['user'];
+        $data = JWT::verifyAndResend();
+        $user = $data['username'];
+        
         $book = $this->model->getExternalBookData($link);
         $id = $this->model->getExternalBookId($link);
         

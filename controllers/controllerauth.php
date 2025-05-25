@@ -2,25 +2,28 @@
 class ControllerAuth extends Controller {
     public function __construct($actiune, $parametri) {
         parent::__construct();
-
-        if ($actiune == "login") {
-             $this->login($_POST['username'], $_POST['password']);
-        } elseif ($actiune == "logout") {
-        } elseif ($actiune == "register") {
+        
+        if ($actiune === "login") {
+            if(!isset($_POST['username']) || !isset($_POST['password']))
+                header('Location: /WebInfoAn2SpilevoiAnton/auth/status');
+            $this->login($_POST['username'], $_POST['password']);
+        } elseif ($actiune === "logout") {
+            setcookie('auth_token', '', time() - 3600, '/');
+            header('Location: /WebInfoAn2SpilevoiAnton/auth/status');
+        } elseif ($actiune === "register") {
              $this->register($_POST['username'], $_POST['password']);
-        } elseif ($actiune == "status") {
+        } elseif ($actiune === "status") {
             $html = file_get_contents("templates/auth.tpl");
             $html = str_replace("{{title}}", "Autentificare", $html);
             echo $html;
         }
-        else {
-            
+        else {            
+            header('Location: /WebInfoAn2SpilevoiAnton/auth/status');
         }
     }
 
     public function login($username, $password) {
-        if ($this->model->autentifica($username, $password)) {
-            //$this->view->incarcaDatele("Autentificare reușită! Bine ai venit, $username.");    
+        if ($this->model->autentifica($username, $password)) {            
             header("Location: /WebInfoAn2SpilevoiAnton/home/index");     
         } else {
             $this->view->incarcaDatele("Autentificare eșuată. Verifică datele.");

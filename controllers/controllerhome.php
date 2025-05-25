@@ -6,9 +6,8 @@ class ControllerHome extends Controller {
         $this->actiune = $actiune;
         $this->parametri = $parametri;
         
-        if(!isset($_SESSION['user'])) {
-            header("Location: /WebInfoAn2SpilevoiAnton/auth/login");
-        }
+        $data = JWT::verifyAndResend();
+        $name = $data['username'];
 
         if ($actiune === 'index') {
             $this->index();

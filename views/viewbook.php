@@ -13,7 +13,8 @@ class ViewBook {
     }
 
     public function incarcaDatele($bookData, $bookReviews, $average, $pages, $progress = 0, $id = -1, $external = false, $link = '') {
-        $name = $_SESSION['user'] ?? 'guest';
+        $data = JWT::verifyAndResend();
+        $name = $data['username'];
         if (is_array($bookData)) {
 
             $reviewsHtml = '';

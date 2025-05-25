@@ -68,16 +68,26 @@ INSERT INTO books (title, author, year, publisher, description, pages) VALUES
             case 'an': $type = 'year'; break;
         }
         
-        if($type === 'an' && gettype($query) != 'integer') return [];
-        $stmt = $this->db->prepare("SELECT * FROM books WHERE $type ILIKE ?");
-        $searchTerm = '%' . $query . '%';
-        $stmt->execute([$searchTerm]);
+        if ($type === 'year') {
+            if (!ctype_digit($query)) {
+                return [];
+            }
+            $query = (int)$query;
+            $stmt = $this->db->prepare("SELECT * FROM books WHERE year = ?");
+            $stmt->execute([$query]);
+        } else {
+            $stmt = $this->db->prepare("SELECT * FROM books WHERE $type ILIKE ?");
+            $searchTerm = '%' . $query . '%';
+            $stmt->execute([$searchTerm]);
+        }
+    
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
     public function toogleBookFavorite($id)
     {       
-        $nume = $_SESSION['user'];
+        $data = JWT::verifyAndResend();
+        $nume = $data['username'];
         if($this->isBookFavorite($id))
         {
             $stmt = $this->db->prepare("DELETE FROM favorites WHERE name = ? AND book_id = ?");
@@ -92,7 +102,8 @@ INSERT INTO books (title, author, year, publisher, description, pages) VALUES
     
     public function isBookFavorite($id)
     {
-        $nume = $_SESSION['user'];
+        $data = JWT::verifyAndResend();
+        $nume = $data['username'];
         $stmt = $this->db->prepare("SELECT 1 FROM favorites WHERE name = ? AND book_id = ?");
         $stmt->execute([$nume, $id]);
         return (bool)$stmt->fetchColumn();
@@ -119,7 +130,8 @@ INSERT INTO books (title, author, year, publisher, description, pages) VALUES
     
     public function getBookProgress($id)
     {
-        $user = $_SESSION['user'];
+        $data = JWT::verifyAndResend();
+        $user = $data['username'];
         $stmt = $this->db->prepare("SELECT pages FROM progress WHERE book_id = ? and username = ?");
         $stmt->execute([$id, $user]);
         $pgs = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -178,8 +190,10 @@ INSERT INTO books (title, author, year, publisher, description, pages) VALUES
     
     function hasBookProgress($id)
     {
-        $stmt = $this->db->prepare("SELECT 1 FROM progress WHERE book_id = ? LIMIT 1");
-        $stmt->execute([$id]);
+        $data = JWT::verifyAndResend();
+        $user = $data['username'];
+        $stmt = $this->db->prepare("SELECT 1 FROM progress WHERE book_id = ? AND username = ? LIMIT 1");
+        $stmt->execute([$id, $user]);
         return (bool) $stmt->fetchColumn();
     }
 }

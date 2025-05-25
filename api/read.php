@@ -1,16 +1,13 @@
 <?php
-session_start();
 
 define('SLASH', DIRECTORY_SEPARATOR);
 require_once 'C:\xampp\htdocs\WebInfoAn2SpilevoiAnton' . SLASH . 'util' . SLASH . 'database.php';
+require_once 'C:\xampp\htdocs\WebInfoAn2SpilevoiAnton' . SLASH . 'util' . SLASH . 'jwt.php';
 
 header('Content-Type: application/json');
 
-if (!isset($_SESSION['user'])) {
-    http_response_code(403);
-    echo json_encode(['error' => 'Not authenticated']);
-    exit;
-}
+$data = JWT::verifyAndResend();
+$username = $data['username'];
 
 $rawData = file_get_contents('php://input');
 $data = json_decode($rawData, true);
@@ -25,7 +22,6 @@ $pages = (int) $data['pages'];
 $bookId = (int) ($data['book_id'] ?? 0);
 $external = $data['external'] ?? false;
 $link = $data['link'] ?? '-';
-$username = $_SESSION['user'];
 
 $db = Database::getInstance()->getConnection();
 

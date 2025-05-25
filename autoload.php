@@ -4,7 +4,7 @@ define('SLASH', DIRECTORY_SEPARATOR);
 
 function autoload($class) {
     //echo "Searching for $class <br>";
-    $folders = ['util', 'models', 'controllers', 'views'];
+    $folders = ['util', 'models', 'controllers', 'views', 'util'];
     foreach ($folders as $folder) {
         $file = DIRECTOR_SITE . SLASH . $folder . SLASH . strtolower($class) . '.php';
         if (file_exists($file)) {

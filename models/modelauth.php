@@ -20,7 +20,18 @@ class ModelAuth {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($row && password_verify($password, $row['password'])) {
-            $_SESSION['user'] = $username;
+            $payload = [
+                'username' => $username,
+                'exp' => time() + 3600
+            ];
+            $jwt = JWT::create($payload);
+            setcookie('auth_token', $jwt, [
+                'expires' => time() + 3600,
+                'path' => '/',
+                'secure' => false,
+                'httponly' => true,
+                'samesite' => 'Strict'
+            ]);
             return true;
         }
         return false;

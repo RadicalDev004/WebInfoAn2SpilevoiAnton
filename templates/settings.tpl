@@ -87,12 +87,12 @@
         <div class="settings-item"><strong>Nume utilizator:</strong> {{username}}</div>
         <div class="settings-item">📚 Cărți începute: {{startedBooks}}</div>
         <div class="settings-item">✅ Cărți terminate: {{finishedBooks}}</div>
-        <div class="settings-item">💬 Comentarii: {{commentsCount}}</div>
+        <div class="settings-item">💬 Recenzii: {{commentsCount}}</div>
         <div class="settings-item">⭐ Favorite: {{favoritesCount}}</div>
 
 
         <a href="/WebInfoAn2SpilevoiAnton/auth/logout"><button class="action-btn">Logout</button></a>
-        <a href="/WebInfoAn2SpilevoiAnton/auth/logout"><button class="action-btn">Export Date</button></a>
+        <a href="/WebInfoAn2SpilevoiAnton/settings/export"><button class="action-btn">Export Date</button></a>
     </div>
 </body>
 </html>

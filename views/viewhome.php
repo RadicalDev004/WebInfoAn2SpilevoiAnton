@@ -198,9 +198,4 @@ class ViewHome {
         }
         return $html;
     }
-    
-    public function externalBookToComponent($book)
-    {
-        
-    }
 }
