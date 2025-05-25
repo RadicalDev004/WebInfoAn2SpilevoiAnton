@@ -373,7 +373,7 @@ function updateProgressAsync()
     headers: {
         'Content-Type': 'application/json'
     },
-    body: bookId != '0' ? JSON.stringify({ pages: pagesRead, book_id : bookId }) : JSON.stringify({ pages: pagesRead, external : true, link : '{{link}}' })
+    body: bookId != '0' ? JSON.stringify({ pages: pagesRead, book_id : bookId }) : JSON.stringify({ pages: pagesRead, external : true, link : '{{link}}', totalPages : totalPages })
 })
 .then(res => {
     return res.text();                          

@@ -40,6 +40,18 @@ INSERT INTO books (title, author, year, publisher, description, pages) VALUES
         $stmt = $this->db->query("SELECT * FROM books");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    function getallBooksTop()
+    {
+        $stmt = $this->db->query("SELECT b.*
+        FROM books b
+        JOIN reviews r ON b.id = r.book_id
+        GROUP BY b.id
+        ORDER BY AVG(r.rating) DESC LIMIT 50
+        ");
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function searchBooks($type, $query) {
         $allowed = ['titlu', 'autor', 'editura', 'an'];
@@ -162,5 +174,12 @@ INSERT INTO books (title, author, year, publisher, description, pages) VALUES
         $stmt->execute([$link]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row['id'] ?? 0;
+    }
+    
+    function hasBookProgress($id)
+    {
+        $stmt = $this->db->prepare("SELECT 1 FROM progress WHERE book_id = ? LIMIT 1");
+        $stmt->execute([$id]);
+        return (bool) $stmt->fetchColumn();
     }
 }

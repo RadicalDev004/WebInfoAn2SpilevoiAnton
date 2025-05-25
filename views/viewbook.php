@@ -35,6 +35,7 @@ class ViewBook {
             } else {
                 $reviewsHtml = '<p>Nu există recenzii!</p>';
             }
+        }
             
         if (is_array($bookData)) {
             
@@ -88,7 +89,6 @@ class ViewBook {
             ];
         }
     }
-}
 
     public function oferaVizualizare() {
         return str_replace(array_keys($this->vars), array_values($this->vars), $this->template);

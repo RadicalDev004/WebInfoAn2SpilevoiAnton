@@ -71,9 +71,19 @@ function setBookProgress($db, $bookId, $user, $pages) {
 }
 
 function getBookPages($db, $bookId) {
-    $stmt = $db->prepare("SELECT pages FROM books WHERE id = ?");
+    
+    $stmt = $db->prepare("SELECT link FROM books WHERE id = ?");
     $stmt->execute([$bookId]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if($row['link'])
+    {
+        return getExternalBookData($row['link'])['volumeInfo']['pageCount'];
+    }
+
+    $stmt = $db->prepare("SELECT pages FROM books WHERE id = ?");
+    $stmt->execute([$bookId]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);   
 
     return $row ? (int)$row['pages'] : 0;
 }
@@ -84,5 +94,12 @@ function getBookProgress($db, $bookId, $user) {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     return $row ? (int)$row['pages'] : 0;
+}
+
+function getExternalBookData($link)
+{
+    $response = file_get_contents($link);
+    $data = json_decode($response, true);
+    return $data;
 }
 

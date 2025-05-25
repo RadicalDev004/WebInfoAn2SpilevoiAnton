@@ -127,6 +127,21 @@ input[type=range]::-ms-thumb {
         style="font-size: 3em; background: none; border: none; color: {{favorites_selected}}; cursor: pointer; transform: translateY(-5px);">
         ★
     </button>
+    <button type="button"
+        onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/{{unfinished_button_action}}'"
+        style="font-size: 1em; background: none; border: none; color: {{favorites_selected2}}; cursor: pointer; transform: translateY(5px);">
+        <span style="display: inline-block; transform: scale(6);">•</span>
+    </button>
+    <button type="button"
+        onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/{{top_button_action}}'"
+        style="font-size: 2.5em; background: none; border: none; color: {{favorites_selected3}}; cursor: pointer; transform: translateY(0x); ">
+        ▲
+    </button>
+    <button type="button"
+        onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/rss'"
+        style="font-size: 2em; background: none; border: none; cursor: pointer; transform: translateY(5px);">
+    <img src="/WebInfoAn2SpilevoiAnton/imgs/rss.png" alt="RSS Feed" style="width: 1em; height: 1em;">
+    </button>
 </div>
 
     <form class="search-bar" id="searchForm"

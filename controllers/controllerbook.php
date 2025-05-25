@@ -9,6 +9,13 @@ class ControllerBook extends Controller {
             $encodedLink = urldecode($parametri[0]);
             $link = base64_decode($encodedLink);
             
+            if (base64_decode($encodedLink, true) === false || empty($link) || !filter_var($link, FILTER_VALIDATE_URL)) {
+
+                $this->view->incarcaDatele("Cartea nu a fost găsită.", null, null, null);
+                echo $this->view->oferaVizualizare();
+                return;
+            }
+            
             $this->viewExternalBook($link);
         } 
         else if($actiune === 'submitReview') {
@@ -27,7 +34,7 @@ class ControllerBook extends Controller {
             header("Location: /WebInfoAn2SpilevoiAnton/book/view/$id");
         }
         else {
-            $this->view->incarcaDatele("Cartea nu a fost găsită.");
+            $this->view->incarcaDatele("Cartea nu a fost găsită.", null, null, null);
             echo $this->view->oferaVizualizare();
         }
     }
@@ -47,7 +54,7 @@ class ControllerBook extends Controller {
         if (is_array($book) && !empty($book)) {
             $this->view->incarcaDatele($book, $reviews, $average, $pages, $progress, $id);
         } else {
-            $this->view->incarcaDatele("Cartea cu ID-ul $id nu există.");
+            $this->view->incarcaDatele("Cartea cu ID-ul $id nu există.", null, null, null);
         }
         echo $this->view->oferaVizualizare();
     }
@@ -75,7 +82,7 @@ class ControllerBook extends Controller {
         if (is_array($book) && !empty($book)) {
             $this->view->incarcaDatele($book, $reviews, $average, $pages, $progress, $id, true, $link);
         } else {
-            $this->view->incarcaDatele("Cartea cu ID-ul $id nu există.");
+            $this->view->incarcaDatele("Cartea cu ID-ul $id nu există." , null, null, nul);
         }
         echo $this->view->oferaVizualizare();
     }

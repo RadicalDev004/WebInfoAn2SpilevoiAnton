@@ -32,15 +32,36 @@ class ControllerHome extends Controller {
             }
             $this->index(true);
         }
+        else if ($actiune === 'unfinished') {
+            if(is_array($parametri) && count($parametri) >= 1) {
+                header("Location: /WebInfoAn2SpilevoiAnton/home/unfinsihed");
+            }
+            $this->index(false , true);
+        }
+        else if ($actiune === 'top') {
+            if(is_array($parametri) && count($parametri) >= 1) {
+                header("Location: /WebInfoAn2SpilevoiAnton/home/top");
+            }
+            $this->index(false , false ,true);
+        }
+        else if ($actiune === 'rss') {
+            if(is_array($parametri) && count($parametri) >= 1) {
+                header("Location: /WebInfoAn2SpilevoiAnton/home/rss");
+            }
+            $this->rss();
+        }
         else {
             header("Location: /WebInfoAn2SpilevoiAnton/home/index");
         }
     }
 
-    public function index($fav = false) {
-        $books = $this->model->getAllBooks();
-        $externalBooks = $this->model->getExternalBooks('', '');
-        $this->view->incarcaDatele($books, $externalBooks, $this->model, $this->actiune , $this->parametri, $fav);
+    public function index($fav = false, $unfinished = false, $top = false) {
+        $books = $top ?  $this->model->getAllBooksTop() : $this->model->getAllBooks();
+        //debug::printArray($books);
+        $letters = range('a', 'z');
+        $randomLetter = $letters[array_rand($letters)];
+        $externalBooks = ($fav || $unfinished || $top) ? [] : $this->model->getExternalBooks('', $randomLetter);
+        $this->view->incarcaDatele($books, $externalBooks, $this->model, $this->actiune , $this->parametri, $fav, $unfinished, $top);
         echo $this->view->oferaVizualizare();
         
     }
@@ -48,11 +69,18 @@ class ControllerHome extends Controller {
     public function search($type, $query) {
         $books = $this->model->searchBooks($type, $query);
         $externalBooks = $this->model->getExternalBooks($type, $query);
-        $this->view->incarcaDatele($books, $externalBooks, $this->model, $this->actiune , $this->parametri, false, true, $query);
+        $this->view->incarcaDatele($books, $externalBooks, $this->model, $this->actiune , $this->parametri, false, false, false, true, $query);
         echo $this->view->oferaVizualizare();        
     }
     
     public function toggleFavorite($id) {
         $books = $this->model->toogleBookfavorite($id);
+    }
+    
+    public function rss()
+    {
+        $rssContent = file_get_contents('http://localhost/WebInfoAn2SpilevoiAnton/api/rss.php');
+        header("Content-Type: application/rss+xml; charset=UTF-8");
+        echo $rssContent;
     }
 }
