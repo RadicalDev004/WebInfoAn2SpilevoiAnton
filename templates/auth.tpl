@@ -3,14 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--responsive-->
+
+    
     <style>
-        body { font-family: Arial, sans-serif; margin: 50px; }
-        .container { max-width: 400px; margin: auto; }
-        .form-section { display: none; }
-        .form-section.active { display: block; }
-        button { margin-top: 10px; }
-        .switch { margin-top: 20px; text-align: center; cursor: pointer; color: blue; }
+
+        body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: #e0e0e0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    max-width: 400px;
+    width: 100%;
+    background-color: #1c1c1c;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(30, 58, 95, 0.6);
+    border: 1px solid #1e3a5f;
+    transition: all 0.3s ease-in-out;
+}
+
+h2 {
+    text-align: center;
+    color: #ffffff;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    background-color: #2a2a2a;
+    border: 1px solid #1e3a5f;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #ffffff;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #3b82f6;
+    outline: none;
+    background-color: #1e1e1e;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1e3a5f;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #3b82f6;
+}
+
+.switch {
+    margin-top: 20px;
+    text-align: center;
+    cursor: pointer;
+    color: #90cdf4;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.form-section {
+    display: none;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.form-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
     </style>
+
+
+
 </head>
 <body>
     <div class="container">
@@ -48,3 +136,4 @@
     </script>
 </body>
 </html>
+
