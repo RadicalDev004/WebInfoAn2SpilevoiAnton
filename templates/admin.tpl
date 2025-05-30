@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h1 { margin-bottom: 10px; }
+        select { padding: 6px 12px; margin-top: 10px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>{{title}}</h1>
+     {{add_entry_panel}}
+
+    <label for="table">Select a table:</label>
+    <select id="table-select">
+        {{table_options}}
+    </select>
+
+    <script>
+        document.getElementById('table-select').addEventListener('change', function () {
+            const table = this.value;
+            if (table) {
+                window.location.href = '/WebInfoAn2SpilevoiAnton/admin/index/' + encodeURIComponent(table);
+            }
+        });
+        
+        function submitNewEntry(form) {
+        const formData = new FormData(form);
+        const entry = {};
+        formData.forEach((val, key) => entry[key] = val);
+
+        fetch('/WebInfoAn2SpilevoiAnton/api/addentry.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                table: document.getElementById('table-select').value,
+                entry: entry
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'ok') {
+                alert('Entry added!');
+                location.reload();
+            } else {
+                alert(data.error || 'Error');
+            }
+        });
+
+            return false;
+        }
+    </script>
+
+    {{table_content}}
+    
+   
+</body>
+</html>

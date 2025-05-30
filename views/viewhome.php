@@ -15,7 +15,10 @@ class ViewHome {
             $externalUnf = false;
             $externalTop = false;
             $externalProgress = 0;
-            if(isset($book['link'])){
+            
+            //debug::printArray($book);
+            
+            if(isset($book['link']) && !empty($book['link'])){
                 if($model->isBookFavorite($book['id']) && $favo)
                 {
                     $data = $model->getExternalBookData($book['link']);
@@ -44,6 +47,8 @@ class ViewHome {
             $progressPercent = $book['pages'] != 0 ? $model->getBookProgress($book['id']) / $book['pages'] * 100 : 0;
             if($externalProgress != 0) $progressPercent = $externalProgress;
             $stars = $model->getBookAverage($book['id']);
+            
+            
             
             if($progressPercent == 0) $progressPercent = 1;
             if($stars == 0) $stars = '-';
