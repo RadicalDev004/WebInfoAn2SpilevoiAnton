@@ -3,117 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <title>{{title}}</title>
+    
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background: #f4f4f4;
+            background-color: #121212;
+            color: #e0e0e0;
         }
 
         header {
-            background: #333;
+            background: #1e3a5f;
             color: white;
-            padding: 1em;
+            padding: 1em 2em;
             display: flex;
-            justify-content: space-between;
+            flex-wrap: wrap;
             align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .search-bar input[type="text"] {
             padding: 0.5em;
             border: none;
             border-radius: 5px;
+            background: #2a2a2a;
+            color: white;
         }
 
         .container {
             display: flex;
             flex-wrap: wrap;
-            gap: 1em;
+            gap: 1.5em;
             padding: 2em;
+            justify-content: center;
         }
 
         .book-card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            width: 200px;
+            background-color: #1c1c1c;
+            border: 1px solid #1e3a5f;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+            width: 220px;
             padding: 1em;
-            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .external-card {
-    position: relative;
-    padding-bottom: 3em; /* Only external cards have this */
-}
-        .separator {
-    flex-basis: 100%; /* Forces it to take full width of the container */
-    text-align: center;
-    margin: 2em 0;
-    font-weight: bold;
-    font-size: 1.2em;
-    color: #111;
-    border-top: 1px solid #555;
-    padding-top: 1em;
-}
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(30, 58, 95, 0.6);
+        }
 
         .book-card h3 {
             font-size: 1.1em;
-            margin: 0 0 0.5em;
+            margin-bottom: 0.5em;
+            color: #ffffff;
         }
 
         .book-card p {
             font-size: 0.9em;
-            color: #555;
+            color: #cccccc;
+            margin: 0.3em 0;
         }
+
+        .separator {
+            flex-basis: 100%;
+            text-align: center;
+            margin: 2em 0;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #90cdf4;
+            border-top: 1px solid #3b82f6;
+            padding-top: 1em;
+        }
+
         .star-button {
-    font-size: 1.5em;
-    background: none;
-    border: none;
-    color: #aaa;
-    cursor: pointer;
-    transition: color 0.2s;
-}
+            font-size: 1.8em;
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
 
+        .star-button.selected {
+            color: gold;
+        }
 
-.star-button.selected {
-    color: gold;
-}
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 0;
-    height: 0;
-    background: transparent;
-    border: none;
-}
+        input[type='range'] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            appearance: none;
+            background: #2a2a2a;
+        }
 
-input[type=range]::-moz-range-thumb {
-    width: 0;
-    height: 0;
-    background: transparent;
-    border: none;
-}
+        input[type='range']::-webkit-slider-thumb,
+        input[type='range']::-moz-range-thumb,
+        input[type='range']::-ms-thumb {
+            width: 0;
+            height: 0;
+            background: transparent;
+            border: none;
+        }
 
-input[type=range]::-ms-thumb {
-    width: 0;
-    height: 0;
-    background: transparent;
-    border: none;
-}
+        .link-extern {
+            position: absolute;
+            bottom: 1em;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+        }
 
-.link-extern {
-    position: absolute;
-    bottom: 1em;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-}
-
-.link-extern button {
-    width: 95%;
-    height: 2em;
-}
+        .link-extern button {
+            width: 95%;
+            height: 2em;
+            background-color: #1e3a5f;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
     </style>
+
     
 </head>
 <body>

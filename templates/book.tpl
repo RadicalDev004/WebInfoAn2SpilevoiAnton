@@ -3,98 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <title>{{title}}</title>
+    
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
             margin: 0;
+            padding: 0;
         }
 
         .book-container {
-            max-width: 800px;
-            margin: auto;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 1.5em;
+            max-width: 900px;
+            margin: 2em auto;
+            background-color: #1c1c1c;
+            border: 1px solid #1e3a5f;
+            border-radius: 12px;
+            padding: 2em;
             display: flex;
+            flex-wrap: wrap;
             gap: 2em;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 20px rgba(30, 58, 95, 0.5);
+            animation: fadeInUp 0.6s ease-out;
         }
 
         .book-cover {
             width: 200px;
             height: 300px;
-            background-color: #e0e0e0;
+            background-color: #2a2a2a;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.2em;
-            color: #888;
-            border: 1px solid #ccc;
+            color: #aaa;
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
         }
 
         .book-details {
             flex: 1;
+            min-width: 250px;
         }
 
         .book-details h2 {
             margin-top: 0;
             margin-bottom: 0.5em;
+            color: #ffffff;
         }
 
         .book-details p {
             margin: 0.3em 0;
+            color: #cccccc;
         }
 
-        .rating-section {
-    max-width: 800px;
-    margin: 2em auto 0;
-    background: #fff;
-    padding: 1.5em;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
+        .rating-section, .review-section {
+            max-width: 900px;
+            margin: 2em auto 0;
+            background: #1c1c1c;
+            padding: 2em;
+            border: 1px solid #1e3a5f;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(30, 58, 95, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
 
-.rating-section h3 {
-    margin-top: 0;
-    margin-bottom: 1em;
-    font-size: 1.2em;
-    color: #333;
-}
+        .rating-section h3,
+        .review-section h3 {
+            margin-top: 0;
+            font-size: 1.3em;
+            color: #90cdf4;
+        }
 
         .stars {
             color: gold;
         }
 
-        .review-section {
-            max-width: 800px;
-            margin: 2em auto 0;
-            background: #fff;
-            padding: 1.5em;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-
-        .review-section h3 {
-            margin-top: 0;
-        }
-
         .review-section textarea {
             width: 100%;
-            height: 100px;
-            padding: 0.5em;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            height: 120px;
+            padding: 0.8em;
+            background-color: #2a2a2a;
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 8px;
             resize: vertical;
         }
 
         .star-input {
             display: flex;
-            gap: 5px;
-            margin-top: 0.8em;
-             flex-direction: row-reverse;
+            gap: 6px;
+            margin-top: 1em;
+            flex-direction: row-reverse;
         }
 
         .star-input input[type="radio"] {
@@ -102,15 +101,13 @@
         }
 
         .star-input label {
-            font-size: 1.5em;
-            color: #ccc;
+            font-size: 2em;
+            color: #555;
             cursor: pointer;
+            transition: color 0.3s;
         }
 
-        .star-input input[type="radio"]:checked ~ label {
-            color: gold;
-        }
-
+        .star-input input[type="radio"]:checked ~ label,
         .star-input label:hover,
         .star-input label:hover ~ label {
             color: gold;
@@ -118,70 +115,31 @@
 
         .review-section button {
             margin-top: 1em;
-            padding: 0.5em 1em;
-            background-color: #0073e6;
+            padding: 0.6em 1.2em;
+            background-color: #1e3a5f;
             border: none;
             color: white;
-            border-radius: 4px;
+            border-radius: 8px;
+            font-size: 1em;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
         .review-section button:hover {
-            background-color: #005bb5;
+            background-color: #3b82f6;
         }
-        header {
-    background: #333;
-    color: white;
-    padding: 2em;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0;
-}
 
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 1em;
-}
-
-.header-button {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: white;
-    color: #333;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    font-weight: bold;
-}
-.progress-section {
-    max-width: 800px;
-    margin: 2em auto 0;
-    background: #fff;
-    padding: 1.5em;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-.progress-section h3 {
-    margin-top: 0;
-    margin-bottom: 1em;
-    font-size: 1.2em;
-    color: #333;
-}
-
-input[type=range] {
-    -webkit-appearance: none;
-    appearance: none;
-    height: 8px;
-    border-radius: 5px;
-    width: 100%;
-    background: linear-gradient(to right, #0073e6 0%, #e0e0e0 0%);
-    pointer-events: none; /* optional */
-    border: none;
-}
-
-/* Remove the knob */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -205,9 +163,8 @@ input[type=range]::-ms-thumb {
     border: none;
 }
 
+</style>
 
-
-    </style>
 </head>
 <header>
     <div class="header-left">
@@ -348,7 +305,7 @@ function updateProgress(newPages) {
     
     pages.textContent = progress;
 
-    slider.style.background = `linear-gradient(to right, #0073e6 ${percent}%, #e0e0e0 ${percent}%)`;
+    slider.style.background = `linear-gradient(to right, #3b82f6 ${percent}%, #e0e0e0 ${percent}%)`;
 }
 function updateProgressAsync()
 {
