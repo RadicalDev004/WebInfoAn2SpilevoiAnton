@@ -14,15 +14,22 @@
         }
 
         header {
-            background: #1e3a5f;
+            background: linear-gradient(to right, #1e3a5f, #0f172a);
             color: white;
-            padding: 1em 2em;
+            padding: 1.2em 2em;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            gap: 1em;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
+
 
         .search-bar input[type="text"] {
             padding: 0.5em;

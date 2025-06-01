@@ -13,6 +13,50 @@
             padding: 0;
         }
 
+        .book-header {
+        position: relative;
+        background: linear-gradient(to right, #1e3a5f, #0f172a);
+        color: white;
+        padding: 1em;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .header-title {
+            margin: 0;
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .header-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: transparent;
+            border: 2px solid #ffffff55;
+            border-radius: 6px;
+            color: white;
+            font-size: 1.2em;
+            padding: 0.4em 0.6em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .header-button:hover {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+
+        .back-button {
+            left: 1em;
+        }
+
+        .settings-button {
+            right: 1em;
+        }
+
         .book-container {
             max-width: 900px;
             margin: 2em auto;
@@ -166,14 +210,15 @@ input[type=range]::-ms-thumb {
 </style>
 
 </head>
-<header>
-    <div class="header-left">
-        <button type="button" onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/index'" class="header-button">←</button>
-        <h1 style="margin: 0;">Detalii Carte</h1>
-    </div>
+<header class="book-header">
+    <button type="button" onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/index'" class="header-button back-button">←</button>
 
-    <button type="button" onclick="window.location.href='/WebInfoAn2SpilevoiAnton/settings/index'" class="header-button">⚙</button>
+    <h1 class="header-title">Detalii Carte</h1>
+
+    <button type="button" onclick="window.location.href='/WebInfoAn2SpilevoiAnton/settings/index'" class="header-button settings-button">⚙</button>
 </header>
+
+
 
 <br><br>
 <body>

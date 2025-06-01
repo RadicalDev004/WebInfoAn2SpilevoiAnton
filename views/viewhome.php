@@ -64,18 +64,41 @@ class ViewHome {
         <p><strong>Autor:</strong> " . htmlspecialchars($externalFav || $externalUnf || $externalTop  ? ($data['volumeInfo']['authors'][0] ?? '-') : $book['author']) . "</p>
         <p><strong>An:</strong> " . htmlspecialchars($externalFav || $externalUnf || $externalTop  ? $data['volumeInfo']['publishedDate'] : $book['year']) . "</p>
         <p><strong>Editura:</strong> " . htmlspecialchars($externalFav || $externalUnf || $externalTop  ? $data['volumeInfo']['publisher'] : $book['publisher']) . "</p>
-        <p style='color: gold;'><strong style='color: black;'>Rating: </strong><b>$stars</b>/5★</p>
+        <p style='color: gold;'><strong style='color: white;'>Rating: </strong><b>$stars</b>/5★</p>
 
         <!-- Progress Slider -->
         <div style='display: flex; align-items: center; gap: 0.5em; margin-top: 10px;'>
-            <input type='range' min='0' max='100' value='" . $progressPercent . "'
-                   style='flex: 1; pointer-events: none; appearance: none; height: 8px; border-radius: 5px;
-                          background: linear-gradient(to right, #0073e6 " . $progressPercent . "%, #e0e0e0 " . $progressPercent . "%);' />
-        </div>
+    <input type='range' min='0' max='100' value='" . $progressPercent . "'
+           style='
+               flex: 1;
+               pointer-events: none;
+               appearance: none;
+               height: 8px;
+               border-radius: 5px;
+               background: linear-gradient(to right,rgb(17, 132, 247) " . $progressPercent . "%, #ffffff " . $progressPercent . "%);
+           ' />
+</div>
+
 
         <div style='display: flex; justify-content: space-between; align-items: center; margin-top: 10px;'>
-            <a href=".($externalFav || $externalUnf || $externalTop  ? "'/WebInfoAn2SpilevoiAnton/book/viewExternal/" . urlencode(base64_encode($book['link']))  : "'/WebInfoAn2SpilevoiAnton/book/view/" . urlencode($book['id'])) . "'>
-                <button>Vezi detalii</button>
+            <a href=".($externalFav || $externalUnf || $externalTop  
+            ? "'/WebInfoAn2SpilevoiAnton/book/viewExternal/" . urlencode(base64_encode($book['link']))  
+            : "'/WebInfoAn2SpilevoiAnton/book/view/" . urlencode($book['id'])) . "'>
+            <button style='
+                padding: 0.4em 1em;
+                background-color: #2563eb;
+                border: none;
+                color: white;
+                border-radius: 6px;
+                font-weight: bold;
+                font-size: 0.9em;
+                cursor: pointer;
+                transition: background-color 0.3s ease, transform 0.2s ease;
+            ' 
+            onmouseover=\"this.style.backgroundColor='#3b82f6'; this.style.transform='translateY(-2px)';\" 
+            onmouseout=\"this.style.backgroundColor='#2563eb'; this.style.transform='translateY(0)';\">
+                Vezi detalii
+            </button>
             </a>
 
             <button type='button' style='font-size: 2em;'
@@ -115,7 +138,7 @@ class ViewHome {
         <p><strong>Autor:</strong> " . ($book['volumeInfo']['authors'][0] ?? '-') . "</p>
         <p><strong>An:</strong> " . ($book['volumeInfo']['publishedDate'] ?? '-') . "</p>
         <p><strong>Editura:</strong> " . ($book['volumeInfo']['publisher'] ?? '-') . "</p>
-        <p style='color: gold;'><strong style='color: black;'>Rating: </strong><b>$stars</b>/5★</p>
+        <p style='color: gold;'><strong style='color: white;'>Rating: </strong><b>$stars</b>/5★</p>
         
         <!-- Progress Slider -->
         <div style='display: flex; align-items: center; gap: 0.5em; margin-top: 10px;'>
