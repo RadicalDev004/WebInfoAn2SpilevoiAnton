@@ -10,7 +10,7 @@ class Database {
 if ($envUrl) {
     $envUrl = str_replace("postgres://", "pgsql://", $envUrl);
     $url = parse_url($envUrl);
-    debug::printArray($url);
+    //debug::printArray($url);
 
     $host = $url['host'] ?? 'localhost';
     $port = $url['port'] ?? 5432;
@@ -27,7 +27,7 @@ if ($envUrl) {
 }
 
             $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
-            echo $dsn."<br>";
+            //echo $dsn."<br>";
 
             $this->connection = new PDO($dsn, $user, $pass);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

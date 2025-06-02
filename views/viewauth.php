@@ -13,7 +13,7 @@ class ViewAuth {
         $output = ob_get_clean();
 
         // Append a <script> tag at the end (after the HTML)
-        $output .= "<script>alert('" . addslashes($this->message) . "');</script>";
+        $output .= "<script>alert('" . addslashes($this->message ?? "unknown error") . "');</script>";
 
         return $output;
     }

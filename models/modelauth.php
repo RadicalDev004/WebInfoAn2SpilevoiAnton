@@ -15,7 +15,7 @@ class ModelAuth {
         setcookie('is_admin', '0', [
                     'expires' => time() + 3600,
                     'path' => '/',
-                    'secure' => false,
+                    'secure' => true,
                     'httponly' => true,
                     'samesite' => 'Strict'
                 ]);
@@ -32,7 +32,7 @@ class ModelAuth {
                 setcookie('is_admin', '1', [
                     'expires' => time() + 3600,
                     'path' => '/',
-                    'secure' => false,
+                    'secure' => true,
                     'httponly' => true,
                     'samesite' => 'Strict'
                 ]);
@@ -51,7 +51,7 @@ class ModelAuth {
             setcookie('auth_token', $jwt, [
                 'expires' => time() + 3600,
                 'path' => '/',
-                'secure' => false,
+                'secure' => true,
                 'httponly' => true,
                 'samesite' => 'Strict'
             ]);
