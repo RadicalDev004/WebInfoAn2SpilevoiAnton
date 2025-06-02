@@ -17,9 +17,9 @@ $paramList = array_slice($parts, 2);
 
 $controllerClass = 'Controller' . $controller;
 //echo $controllerClass;
-if (class_exists($controllerClass) == 1) {
+if (class_exists($controllerClass)) {
     $ctrl = new $controllerClass($actiune, $paramList);
 } else {
-    echo "Controllerul '$controllerClass' nu există.";
+    //echo "Controllerul '$controllerClass' nu există.";
     header("Location: /home/status");
 }

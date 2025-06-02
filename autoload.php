@@ -12,7 +12,7 @@ function autoload($class) {
             return 1;
         }
     }
-    echo "Nu găsesc clasa $class";
+    //echo "Nu găsesc clasa $class";
     
     return 0;
 }
