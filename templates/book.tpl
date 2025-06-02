@@ -183,6 +183,16 @@
                 transform: translateY(0);
             }
         }
+        .progress-box {
+    max-width: 925px;
+    margin: 2em auto 0;
+    padding: 1.2em;
+    background-color: #1c1c1c;
+    border: 1px solid #1e3a5f;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 115, 230, 0.2);
+}
+
     
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -242,10 +252,9 @@ input[type=range]::-ms-thumb {
         </div>
     </div>
     
-        <div class="progress-section" {{hide}}>
-    <h3>Progres lectură</h3>
-    <div style="display: flex; align-items: center; justify-content: space-between; gap: 1em;">
-        
+        <div class="progress-box" {{hide}}>
+    <h3 style="color:rgb(118, 194, 245);">Progres lectură</h3
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 1em; flex-wrap: wrap;">
         <!-- Left side: total pages and slider with percentage -->
         <div style="flex: 1; display: flex; align-items: center; gap: 0.8em;">
             <span id="totalPagesLabel">{{pages_read}}</span>
@@ -253,7 +262,7 @@ input[type=range]::-ms-thumb {
                    style="flex-grow: 1; pointer-events: none;">
             <span id="progressPercent">0%</span>
         </div>
-        
+
         <!-- Right side: input + button -->
         <div style="display: flex; align-items: center; gap: 0.5em;">
             <input type="number" id="pagesInput" placeholder="Pagini citite" 
@@ -265,6 +274,7 @@ input[type=range]::-ms-thumb {
         </div>
     </div>
 </div>
+
 
 
     
