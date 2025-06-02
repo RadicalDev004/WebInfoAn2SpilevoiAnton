@@ -10,6 +10,7 @@ class Database {
 if ($envUrl) {
     $envUrl = str_replace("postgres://", "pgsql://", $envUrl);
     $url = parse_url($envUrl);
+    debug::printArray($url);
 
     $host = $url['host'] ?? 'localhost';
     $port = $url['port'] ?? 5432;
