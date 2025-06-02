@@ -9,11 +9,11 @@ function autoload($class) {
         $file = DIRECTOR_SITE . SLASH . $folder . SLASH . strtolower($class) . '.php';
         if (file_exists($file)) {
             require_once $file;
-            return;
+            return 1;
         }
     }
     echo "Nu găsesc clasa $class";
-    header("Location: /home/status");
-    exit;
+    
+    return 0;
 }
 spl_autoload_register('autoload');
