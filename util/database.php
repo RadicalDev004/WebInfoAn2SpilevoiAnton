@@ -13,9 +13,6 @@ if ($envUrl) {
     debug::printArray($url);
 
     $host = $url['host'] ?? 'localhost';
-    if (!str_ends_with($host, '.internal')) {
-        $host .= '.internal';
-    }
     $port = $url['port'] ?? 5432;
     $dbname = isset($url['path']) ? ltrim($url['path'], '/') : '';
     $user = $url['user'] ?? '';
