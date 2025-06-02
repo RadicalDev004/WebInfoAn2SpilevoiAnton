@@ -60,10 +60,10 @@ class ViewHome {
          onerror=\"this.style.display='none'; this.parentElement.innerHTML='<div style=\\'width: 100%; height: 100%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #777; font-size: 1.2em;\\'>Copertă</div>';\">
         </div>
 
-        <h3>" . htmlspecialchars($externalFav || $externalUnf || $externalTop  ? $data['volumeInfo']['title'] : $book['title']) . "</h3>
+        <h3>" . htmlspecialchars($externalFav || $externalUnf || $externalTop  ? ($data['volumeInfo']['title'] ?? '') : $book['title']) . "</h3>
         <p><strong>Autor:</strong> " . htmlspecialchars($externalFav || $externalUnf || $externalTop  ? ($data['volumeInfo']['authors'][0] ?? '-') : $book['author']) . "</p>
-        <p><strong>An:</strong> " . htmlspecialchars($externalFav || $externalUnf || $externalTop  ? $data['volumeInfo']['publishedDate'] : $book['year']) . "</p>
-        <p><strong>Editura:</strong> " . htmlspecialchars($externalFav || $externalUnf || $externalTop  ? $data['volumeInfo']['publisher'] : $book['publisher']) . "</p>
+        <p><strong>An:</strong> " . htmlspecialchars($externalFav || $externalUnf || $externalTop  ? ($data['volumeInfo']['publishedDate'] ?? '-') : $book['year']) . "</p>
+        <p><strong>Editura:</strong> " . htmlspecialchars($externalFav || $externalUnf || $externalTop  ? ($data['volumeInfo']['publisher'] ?? '-' ) : $book['publisher']) . "</p>
         <p style='color: gold;'><strong style='color: white;'>Rating: </strong><b>$stars</b>/5★</p>
 
         <!-- Progress Slider -->
@@ -82,8 +82,8 @@ class ViewHome {
 
         <div style='display: flex; justify-content: space-between; align-items: center; margin-top: 10px;'>
             <a href=".($externalFav || $externalUnf || $externalTop  
-            ? "'/WebInfoAn2SpilevoiAnton/book/viewExternal/" . urlencode(base64_encode($book['link']))  
-            : "'/WebInfoAn2SpilevoiAnton/book/view/" . urlencode($book['id'])) . "'>
+            ? "'/book/viewExternal/" . urlencode(base64_encode($book['link']))  
+            : "'/book/view/" . urlencode($book['id'])) . "'>
             <button style='
                 padding: 0.4em 1em;
                 background-color: rgb(37, 99, 235);
@@ -149,7 +149,7 @@ class ViewHome {
         </div>
 
         <div style='display: flex; justify-content: space-between; align-items: center; margin-top: 10px;'>
-            <a href='/WebInfoAn2SpilevoiAnton/book/viewExternal/" . urlencode(base64_encode($book['selfLink'])) . "'>
+            <a href='/book/viewExternal/" . urlencode(base64_encode($book['selfLink'])) . "'>
                 <button style='
                 padding: 0.4em 1em;
                 background-color: rgb(37, 99, 235);
@@ -182,7 +182,7 @@ class ViewHome {
 ";
         }
         $backfromsearch = "<button type='button'
-            onclick=\"window.location.href='/WebInfoAn2SpilevoiAnton/home/index'\"
+            onclick=\"window.location.href='/home/index'\"
             style='padding: 0.5em 1em; background-color: #555; color: white; border: none; border-radius: 4px; cursor: pointer;'>
             X
         </button>";

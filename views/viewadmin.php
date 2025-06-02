@@ -20,7 +20,7 @@ class ViewAdmin {
             $headers = array_keys($rows[0]);
             $headersHtml = '';
             foreach ($headers as $header) {
-                $headersHtml .= "<th>" . htmlspecialchars($header) . "</th>";
+                $headersHtml .= "<th>" . htmlspecialchars($header ?? '') . "</th>";
             }
             $headersHtml.="<th>Delete</th>";
         
@@ -28,7 +28,7 @@ class ViewAdmin {
             foreach ($rows as $row) {
                 $rowsHtml .= "<tr>";
                 foreach ($row as $cell) {
-                    $rowsHtml .= "<td>" . htmlspecialchars($cell) . "</td>";
+                    $rowsHtml .= "<td>" . htmlspecialchars($cell ?? '') . "</td>";
                 }
                 $rowsHtml.="<td><button onclick = \"deleteEntry(this)\">Delete</button></td>";
                 $rowsHtml .= "</tr>";
@@ -39,7 +39,7 @@ class ViewAdmin {
                 <tbody>$rowsHtml</tbody>
             </table>";
         } elseif ($selectedTable) {
-            $tableContent = "<p>No data found in <strong>" . htmlspecialchars($selectedTable) . "</strong>.</p>";
+            $tableContent = "<p>No data found in <strong>" . htmlspecialchars($selectedTable ?? '') . "</strong>.</p>";
         } else {
             $tableContent = "";
         }
@@ -53,8 +53,8 @@ class ViewAdmin {
             $formFields = '';
         
             foreach ($columns as $col) {
-                $formFields .= '<label>' . htmlspecialchars($col) . ': ';
-                $formFields .= '<input name="' . htmlspecialchars($col) . '" type="text" /></label><br/>';
+                $formFields .= '<label>' . htmlspecialchars($col ?? '') . ': ';
+                $formFields .= '<input name="' . htmlspecialchars($col ?? '') . '" type="text" /></label><br/>';
             }
         
             $addEntryForm  = '<div id="entry-form" style="display:none; margin-top:20px; border:1px solid #ccc; padding:10px;">';

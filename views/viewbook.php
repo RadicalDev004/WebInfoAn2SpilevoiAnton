@@ -21,9 +21,9 @@ class ViewBook {
             if (!empty($bookReviews)) {
                 foreach ($bookReviews as $review) {
                     $stars = str_repeat('★', $review['rating']) . str_repeat('☆', 5 - $review['rating']);
-                    $reviewText = nl2br(htmlspecialchars($review['text']));
-                    $user = htmlspecialchars($review['username']);
-                    $date = isset($review['created_at']) ? htmlspecialchars($review['created_at']) : '';
+                    $reviewText = nl2br(htmlspecialchars($review['text']) ?? '');
+                    $user = htmlspecialchars($review['username'] ?? '');
+                    $date = isset($review['created_at']) ? htmlspecialchars($review['created_at'] ??'') : '';
     
                     $reviewsHtml .= "
                         <div style='border-bottom: 1px solid #eee; padding: 0.5em 0;'>
@@ -56,7 +56,7 @@ class ViewBook {
                     '{{username}}' => $name,
                     '{{total_pages}}' => $pages,
                     '{{pages_read}}' => $progress,
-                    '{{description}}' => array_key_exists('description', $bookData) ? nl2br(htmlspecialchars($bookData['description'])) : '-'
+                    '{{description}}' => array_key_exists('description', $bookData) ? nl2br(htmlspecialchars($bookData['description'] ??'')) : '-'
                 ];
             }
             else{

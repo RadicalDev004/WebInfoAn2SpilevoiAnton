@@ -6,7 +6,7 @@ class ViewSettings {
     public function incarcaDatele($username, $stats) {
         $this->vars = [
             '{{title}}' => 'Setări utilizator',
-            '{{username}}' => htmlspecialchars($username),
+            '{{username}}' => htmlspecialchars($username ?? ''),
             '{{startedBooks}}' => $stats['started'],
             '{{finishedBooks}}' => $stats['finished'],
             '{{commentsCount}}' => $stats['comments'],
@@ -23,7 +23,7 @@ class ViewSettings {
             '{{finishedBooks}}' => '',
             '{{commentsCount}}' => '',
             '{{favoritesCount}}' => '',
-            '{{loginButton}}' => '<a href="/WebInfoAn2SpilevoiAnton/auth/login"><button>Login</button></a>'
+            '{{loginButton}}' => '<a href="/auth/login"><button>Login</button></a>'
         ];
         return $this->render();
     }
