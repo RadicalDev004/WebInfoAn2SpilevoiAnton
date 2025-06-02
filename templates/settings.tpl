@@ -14,13 +14,12 @@
 
         header {
             background: #1e3a5f;
-            color: white;
-            padding: 1.5em 2em;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+             position: relative;
+        color: white;
+        padding: 2em;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .header-left {
@@ -28,23 +27,32 @@
             align-items: center;
             gap: 1em;
         }
+        .header-title {
+            margin: 0;
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #ffffff;
+        }
 
         .header-button {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: white;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 6px;
+            background-color: transparent;
             color: #1e3a5f;
-            border: 1px solid #ccc;
+            border: 2px solid #ffffff55;
+            color: white;
+            font-size: 1.2em;
+            padding: 0.4em 0.6em;
             cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.2s ease, transform 0.2s ease;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         .header-button:hover {
             background-color: #3b82f6;
             color: white;
-            transform: scale(1.05);
         }
 
         .settings-container {
@@ -68,6 +76,9 @@
             margin: 1em 0;
             font-size: 1.2em;
         }
+        .back-button {
+            left: 1em;
+        }
 
         .action-btn {
             margin-top: 1.2em;
@@ -88,10 +99,8 @@
 </head>
 <body>
     <header>
-        <div class="header-left">
-            <button type="button" onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/index'" class="header-button">←</button>
-            <h1 style="margin: 0;">Setări</h1>
-        </div>
+            <button type="button" onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/index'" class="header-button back-button">←</button>
+            <h1 class = "header-title">Setări</h1>
     </header>
 
     <div class="settings-container">

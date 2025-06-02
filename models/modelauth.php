@@ -12,6 +12,13 @@ class ModelAuth {
                 password TEXT NOT NULL
             );
         ");
+        setcookie('is_admin', '0', [
+                    'expires' => time() + 3600,
+                    'path' => '/',
+                    'secure' => false,
+                    'httponly' => true,
+                    'samesite' => 'Strict'
+                ]);
     }
 
     public function autentifica($username, $password) {       

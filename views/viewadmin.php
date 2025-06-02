@@ -22,6 +22,7 @@ class ViewAdmin {
             foreach ($headers as $header) {
                 $headersHtml .= "<th>" . htmlspecialchars($header) . "</th>";
             }
+            $headersHtml.="<th>Delete</th>";
         
             $rowsHtml = '';
             foreach ($rows as $row) {
@@ -29,6 +30,7 @@ class ViewAdmin {
                 foreach ($row as $cell) {
                     $rowsHtml .= "<td>" . htmlspecialchars($cell) . "</td>";
                 }
+                $rowsHtml.="<td><button onclick = \"deleteEntry(this)\">Delete</button></td>";
                 $rowsHtml .= "</tr>";
             }
         

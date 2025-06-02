@@ -32,10 +32,11 @@
 
 
         .search-bar input[type="text"] {
+            display: flex; gap: 0.5em; margin-left: auto;
             padding: 0.5em;
             border: none;
             border-radius: 5px;
-            background: #2a2a2a;
+            background-color: rgb(37, 99, 235);
             color: white;
         }
 
@@ -109,6 +110,15 @@
             background: #2a2a2a;
         }
 
+        input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 0;
+    height: 0;
+    background: transparent;
+    border: none;
+}
+
         input[type='range']::-webkit-slider-thumb,
         input[type='range']::-moz-range-thumb,
         input[type='range']::-ms-thumb {
@@ -135,6 +145,45 @@
             border-radius: 6px;
             cursor: pointer;
         }
+        .external-card {
+    position: relative;
+    padding-bottom: 3em;
+}
+            .header-button {
+            background-color: transparent;
+            border: 2px solid #ffffff55;
+            border-radius: 6px;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        
+
+        .header-button:hover {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+        .settings-button {
+            right: 1em;
+        }
+        .search-button{
+           padding: 0.4em 1em;
+                background-color: rgb(37, 99, 235);
+                border: none;
+                color: white;
+                border-radius: 6px;
+                font-weight: bold;
+                font-size: 0.9em;
+                cursor: pointer;
+                transition: background-color 0.3s ease, transform 0.2s ease;
+                transform: translateY(0px); 
+        }
+        #searchInput::placeholder {
+    color: white;
+    opacity: 1;
+  }
+        
     </style>
 
     
@@ -171,14 +220,14 @@
       style="display: flex; gap: 0.5em; margin-left: auto;">
         {{back_from_search}}
         <input type="text" id="searchInput" name="query" placeholder="Caută o carte..."
-               style="padding: 0.5em; border: none; border-radius: 5px;">
+               style="padding: 0.5em; border: none; border-radius: 5px; color: white;">
     </form>
     <button type="button" id="searchButton"
-    style="padding: 0.5em 1em; background-color: #555; color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 0.5em;">
+    class = "search-button">
     Search
 </button>
     
-    <select id="searchType" name="type" style="padding: 0.5em; border-radius: 5px; margin-left: 0.5em;">
+    <select id="searchType" name="type" class = "header-button">
     <option value="titlu">titlu</option>
     <option value="autor">autor</option>   
     <option value="editura">editura</option>
@@ -187,7 +236,7 @@
   
     <button type="button"
     onclick="window.location.href='/WebInfoAn2SpilevoiAnton/settings/index'"
-    style="width: 36px; height: 36px; border-radius: 50%; background-color: white; color: #333; border: 1px solid #ccc; cursor: pointer; font-weight: bold; margin-left: 1em;">⚙
+    style="width: 36px; height: 36px; cfont-weight: bold;" class = "header-button">⚙
 </button>
 </header>
 

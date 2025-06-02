@@ -17,7 +17,7 @@
         position: relative;
         background: linear-gradient(to right, #1e3a5f, #0f172a);
         color: white;
-        padding: 1em;
+        padding: 2em;
         text-align: center;
         box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -195,7 +195,7 @@
 
     
 input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
+    -webkit-appearance: none; 
     appearance: none;
     width: 0;
     height: 0;
@@ -216,6 +216,10 @@ input[type=range]::-ms-thumb {
     background: transparent;
     border: none;
 }
+#pagesInput::placeholder {
+    color: white;
+    opacity: 1; 
+  }
 
 </style>
 
@@ -247,7 +251,7 @@ input[type=range]::-ms-thumb {
             <p {{hide}}><strong>An: </strong> {{year}}</p>
             <p {{hide}}><strong>Editura: </strong> {{publisher}}</p>
             <p {{hide}}><strong>Pagini: </strong> {{total_pages}}</p>
-            <p {{hide}} style='color: gold;'><strong style='color: black; !important;'>Rating: </strong>{{avarage_rating}} /5★</p>
+            <p {{hide}} style='color: gold;'><strong style='color: white; !important;'>Rating: </strong>{{avarage_rating}} /5★</p>
             <p><strong>Descriere: </strong><br>{{description}}</p>           
         </div>
     </div>
@@ -255,7 +259,6 @@ input[type=range]::-ms-thumb {
         <div class="progress-box" {{hide}}>
     <h3 style="color:rgb(118, 194, 245);">Progres lectură</h3
     <div style="display: flex; align-items: center; justify-content: space-between; gap: 1em; flex-wrap: wrap;">
-        <!-- Left side: total pages and slider with percentage -->
         <div style="flex: 1; display: flex; align-items: center; gap: 0.8em;">
             <span id="totalPagesLabel">{{pages_read}}</span>
             <input type="range" id="progressSlider" min="0" max="100" value="0" 
@@ -263,10 +266,9 @@ input[type=range]::-ms-thumb {
             <span id="progressPercent">0%</span>
         </div>
 
-        <!-- Right side: input + button -->
-        <div style="display: flex; align-items: center; gap: 0.5em;">
+        <div style="display: flex; align-items: center; gap: 0.5em; ">
             <input type="number" id="pagesInput" placeholder="Pagini citite" 
-                   style="width: 100px; padding: 0.3em;">
+                   style="width: 100px; padding: 0.3em; background-color: #0073e6; color: white; border-radius: 6px;">
             <button onclick="updateProgressAsync()" 
                     style="padding: 0.4em 0.8em; background-color: #0073e6; color: white; border: none; border-radius: 4px; cursor: pointer;">
                 Actualizează

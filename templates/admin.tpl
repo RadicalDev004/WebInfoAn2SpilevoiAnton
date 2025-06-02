@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <button type="button" onclick="window.location.href='/WebInfoAn2SpilevoiAnton/auth/status'" class="header-button back-button">←</button>
     <title>{{title}}</title>
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
@@ -54,6 +55,31 @@
 
             return false;
         }
+
+        function deleteEntry(button) {
+    const row = button.closest('tr');
+    const id = row.querySelector('td').textContent.trim(); // assuming first cell is ID
+
+    fetch('/WebInfoAn2SpilevoiAnton/api/deleteentry.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            table: document.getElementById('table-select').value,
+            id: id
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'ok') {
+            alert('Entry deleted!');
+            location.reload();
+        } else {
+            alert(data.error || 'Error');
+        }
+    });
+
+    return false;
+}
     </script>
 
     {{table_content}}

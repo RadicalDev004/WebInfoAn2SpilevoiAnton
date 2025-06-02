@@ -150,7 +150,18 @@ class ViewHome {
 
         <div style='display: flex; justify-content: space-between; align-items: center; margin-top: 10px;'>
             <a href='/WebInfoAn2SpilevoiAnton/book/viewExternal/" . urlencode(base64_encode($book['selfLink'])) . "'>
-                <button>Vezi detalii</button>
+                <button style='
+                padding: 0.4em 1em;
+                background-color: rgb(37, 99, 235);
+                border: none;
+                color: white;
+                border-radius: 6px;
+                font-weight: bold;
+                font-size: 0.9em;
+                cursor: pointer;
+                transition: background-color 0.3s ease, transform 0.2s ease;
+                transform: translateY(0px);
+            ' >Vezi detalii</button>
             </a>
             
             <button type='button' style='font-size: 2em;'

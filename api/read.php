@@ -58,9 +58,13 @@ function setBookProgress($db, $bookId, $user, $pages) {
         $pgs = getBookPages($db, $bookId);
         $newVal = max(0, min($pgs, $prev + $pages));
 
+
         $stmt = $db->prepare("UPDATE progress SET pages = ? WHERE book_id = ? AND username = ?");
         $stmt->execute([$newVal, $bookId, $user]);
     } else {
+        $pgs = getBookPages($db, $bookId);
+        $newVal = max(0, min($pgs, $pages));
+
         $stmt = $db->prepare("INSERT INTO progress (book_id, username, pages) VALUES (?, ?, ?)");
         $stmt->execute([$bookId, $user, $pages]);
     }
