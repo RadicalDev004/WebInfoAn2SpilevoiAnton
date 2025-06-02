@@ -80,7 +80,7 @@ class ControllerHome extends Controller {
     
     public function rss()
     {
-        $rssContent = file_get_contents('http://localhost/WebInfoAn2SpilevoiAnton/api/rss.php');
+        $rssContent = file_get_contents('https://webinfoan2spilevoianton-1.onrender.com/api/rss.php');
         header("Content-Type: application/rss+xml; charset=UTF-8");
         echo $rssContent;
     }

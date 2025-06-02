@@ -13,6 +13,7 @@ function autoload($class) {
         }
     }
     echo "Nu găsesc clasa $class";
+    header("Location: /home/status");
     exit;
 }
 spl_autoload_register('autoload');
