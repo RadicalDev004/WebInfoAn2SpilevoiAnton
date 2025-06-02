@@ -39,7 +39,7 @@ h2 {
 input[type="text"],
 input[type="password"] {
     width: 100%;
-    padding: 12px 15px;
+    padding: 12px 0px;
     margin: 10px 0;
     background-color: #2a2a2a;
     border: 1px solid #1e3a5f;
