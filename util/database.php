@@ -26,8 +26,8 @@ if ($envUrl) {
     $pass = 'postgres';
 }
 
-$dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
-$this->connection = new PDO($dsn, $user, $pass);
+            $dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
+            echo $dsn;
 
             $this->connection = new PDO($dsn, $user, $pass);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
