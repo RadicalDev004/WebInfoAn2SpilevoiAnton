@@ -86,7 +86,7 @@ class ViewHome {
             : "'/WebInfoAn2SpilevoiAnton/book/view/" . urlencode($book['id'])) . "'>
             <button style='
                 padding: 0.4em 1em;
-                background-color: #2563eb;
+                background-color: rgb(37, 99, 235);
                 border: none;
                 color: white;
                 border-radius: 6px;
@@ -94,6 +94,7 @@ class ViewHome {
                 font-size: 0.9em;
                 cursor: pointer;
                 transition: background-color 0.3s ease, transform 0.2s ease;
+                transform: translateY(0px);
             ' 
             onmouseover=\"this.style.backgroundColor='#3b82f6'; this.style.transform='translateY(-2px)';\" 
             onmouseout=\"this.style.backgroundColor='#2563eb'; this.style.transform='translateY(0)';\">
