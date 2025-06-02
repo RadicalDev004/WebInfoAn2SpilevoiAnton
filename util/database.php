@@ -8,12 +8,14 @@ class Database {
         try {
             $envUrl = getenv('DATABASE_URL');
 if ($envUrl) {
+    $envUrl = str_replace("postgres://", "pgsql://", $envUrl);
     $url = parse_url($envUrl);
-    $host = $url['host'];
+
+    $host = $url['host'] ?? 'localhost';
     $port = $url['port'] ?? 5432;
-    $dbname = ltrim($url['path'], '/');
-    $user = $url['user'];
-    $pass = $url['pass'];
+    $dbname = isset($url['path']) ? ltrim($url['path'], '/') : '';
+    $user = $url['user'] ?? '';
+    $pass = $url['pass'] ?? '';
 } else {
 
     $host = 'host.docker.internal';
