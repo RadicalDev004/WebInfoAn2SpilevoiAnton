@@ -10,7 +10,7 @@ class Database {
 if ($envUrl) {
     $url = parse_url($envUrl);
     $host = $url['host'];
-    $port = $url['port'];
+    $port = $url['port'] ?? 5432;
     $dbname = ltrim($url['path'], '/');
     $user = $url['user'];
     $pass = $url['pass'];
