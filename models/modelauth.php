@@ -37,7 +37,7 @@ class ModelAuth {
                     'samesite' => 'Strict'
                 ]);
                 
-                header("Location: /WebInfoAn2SpilevoiAnton/admin/index");
+                header("Location: /admin/index");
                 exit;
             }
         }

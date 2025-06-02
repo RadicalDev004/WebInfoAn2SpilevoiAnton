@@ -1,7 +1,7 @@
 <?php
-define('SLASH', DIRECTORY_SEPARATOR);
+
 header("Content-Type: application/rss+xml; charset=UTF-8");
-require_once 'C:\xampp\htdocs\WebInfoAn2SpilevoiAnton' . SLASH . 'util' . SLASH . 'database.php';
+require_once __DIR__ . '/../util/database.php';
 
 $doc = new DOMDocument('1.0', 'UTF-8');
 $doc->formatOutput = true;

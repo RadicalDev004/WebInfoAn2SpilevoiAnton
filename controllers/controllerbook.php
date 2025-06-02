@@ -30,13 +30,13 @@ class ControllerBook extends Controller {
             } else {
                 $this->submitReview($parametri[0],$parametri[1],$parametri[2],$parametri[3]);
                 $id = $parametri[0];
-                header("Location: /WebInfoAn2SpilevoiAnton/book/view/$id");
+                header("Location: /book/view/$id");
             }
         } else if($actiune === 'changeProgress')
         {
             $this->changeProgress($parametri[0], $parametri[1], $parametri[2]);
             $id = $parametri[0];
-            header("Location: /WebInfoAn2SpilevoiAnton/book/view/$id");
+            header("Location: /book/view/$id");
         }
         else {
             $this->view->incarcaDatele("Cartea nu a fost găsită.", null, null, null);

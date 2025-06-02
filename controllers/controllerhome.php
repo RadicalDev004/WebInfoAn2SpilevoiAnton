@@ -25,34 +25,34 @@ class ControllerHome extends Controller {
             
             $info = $params === '' ? $from : "$from/$params";
             
-            header("Location: /WebInfoAn2SpilevoiAnton/home/$info");
+            header("Location: /home/$info");
         }
         else if ($actiune === 'favorites') {
             if(is_array($parametri) && count($parametri) >= 1) {
-                header("Location: /WebInfoAn2SpilevoiAnton/home/favorites");
+                header("Location: /home/favorites");
             }
             $this->index(true);
         }
         else if ($actiune === 'unfinished') {
             if(is_array($parametri) && count($parametri) >= 1) {
-                header("Location: /WebInfoAn2SpilevoiAnton/home/unfinsihed");
+                header("Location: /home/unfinsihed");
             }
             $this->index(false , true);
         }
         else if ($actiune === 'top') {
             if(is_array($parametri) && count($parametri) >= 1) {
-                header("Location: /WebInfoAn2SpilevoiAnton/home/top");
+                header("Location: /home/top");
             }
             $this->index(false , false ,true);
         }
         else if ($actiune === 'rss') {
             if(is_array($parametri) && count($parametri) >= 1) {
-                header("Location: /WebInfoAn2SpilevoiAnton/home/rss");
+                header("Location: /home/rss");
             }
             $this->rss();
         }
         else {
-            header("Location: /WebInfoAn2SpilevoiAnton/home/index");
+            header("Location: /home/index");
         }
     }
 

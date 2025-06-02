@@ -1,8 +1,7 @@
 <?php
 
-define('SLASH', DIRECTORY_SEPARATOR);
-require_once 'C:\xampp\htdocs\WebInfoAn2SpilevoiAnton'. SLASH . 'util' . SLASH . 'database' . '.php';
-require_once 'C:\xampp\htdocs\WebInfoAn2SpilevoiAnton' . SLASH . 'util' . SLASH . 'jwt.php';
+require_once __DIR__ . '/../util/database.php';
+require_once __DIR__ . '/../util/jwt.php';
 
 header('Content-Type: application/json');
 

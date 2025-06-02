@@ -45,7 +45,7 @@ class JWT {
             $data = JWT::getPayload($_COOKIE['auth_token']);
             return $data;
         } else {
-            header("Location: /WebInfoAn2SpilevoiAnton/auth/status");
+            header("Location: /auth/status");
             exit;
         }
     }

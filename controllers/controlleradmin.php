@@ -13,14 +13,14 @@ class ControllerAdmin extends Controller {
         //$user = $data['username'];
 
         if (!isset($_COOKIE['is_admin']) || $_COOKIE['is_admin'] !== '1') {
-            header('Location: /WebInfoAn2SpilevoiAnton/auth/status');
+            header('Location: /auth/status');
             exit;
         }
 
         if ($actiune === 'index') {
             $this->index($parametri[0] ?? "users");
         } else {
-            header('Location: /WebInfoAn2SpilevoiAnton/admin/index');
+            header('Location: /admin/index');
         }
     }
 

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <button type="button" onclick="window.location.href='/WebInfoAn2SpilevoiAnton/auth/status'" class="header-button back-button">←</button>
+    <button type="button" onclick="window.location.href='/auth/status'" class="header-button back-button">←</button>
     <title>{{title}}</title>
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
@@ -26,7 +26,7 @@
         document.getElementById('table-select').addEventListener('change', function () {
             const table = this.value;
             if (table) {
-                window.location.href = '/WebInfoAn2SpilevoiAnton/admin/index/' + encodeURIComponent(table);
+                window.location.href = '/admin/index/' + encodeURIComponent(table);
             }
         });
         
@@ -35,7 +35,7 @@
         const entry = {};
         formData.forEach((val, key) => entry[key] = val);
 
-        fetch('/WebInfoAn2SpilevoiAnton/api/addentry.php', {
+        fetch('/api/addentry.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -60,7 +60,7 @@
     const row = button.closest('tr');
     const id = row.querySelector('td').textContent.trim(); // assuming first cell is ID
 
-    fetch('/WebInfoAn2SpilevoiAnton/api/deleteentry.php', {
+    fetch('/api/deleteentry.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

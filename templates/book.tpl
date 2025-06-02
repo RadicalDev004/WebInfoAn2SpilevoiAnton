@@ -225,11 +225,11 @@ input[type=range]::-ms-thumb {
 
 </head>
 <header class="book-header">
-    <button type="button" onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/index'" class="header-button back-button">←</button>
+    <button type="button" onclick="window.location.href='/home/index'" class="header-button back-button">←</button>
 
     <h1 class="header-title">Detalii Carte</h1>
 
-    <button type="button" onclick="window.location.href='/WebInfoAn2SpilevoiAnton/settings/index'" class="header-button settings-button">⚙</button>
+    <button type="button" onclick="window.location.href='/settings/index'" class="header-button settings-button">⚙</button>
 </header>
 
 
@@ -319,7 +319,7 @@ function submitReview(event) {
     }
     
     
-    fetch('/WebInfoAn2SpilevoiAnton/api/review.php', {
+    fetch('/api/review.php', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -382,7 +382,7 @@ function updateProgressAsync()
     
     updateProgress(pagesRead);
     
-    fetch('/WebInfoAn2SpilevoiAnton/api/read.php', {
+    fetch('/api/read.php', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'

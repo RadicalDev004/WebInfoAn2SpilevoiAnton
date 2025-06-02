@@ -195,22 +195,22 @@
 <div style="display: flex; align-items: center; gap: 1em;">
     <h1 style="margin: 0;">{{headerTitle}}</h1>
     <button type="button"
-        onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/{{favorites_button_action}}'"
+        onclick="window.location.href='/home/{{favorites_button_action}}'"
         style="font-size: 3em; background: none; border: none; color: {{favorites_selected}}; cursor: pointer; transform: translateY(-5px);">
         ★
     </button>
     <button type="button"
-        onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/{{unfinished_button_action}}'"
+        onclick="window.location.href='/home/{{unfinished_button_action}}'"
         style="font-size: 1em; background: none; border: none; color: {{favorites_selected2}}; cursor: pointer; transform: translateY(5px);">
         <span style="display: inline-block; transform: scale(6);">•</span>
     </button>
     <button type="button"
-        onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/{{top_button_action}}'"
+        onclick="window.location.href='/home/{{top_button_action}}'"
         style="font-size: 2.5em; background: none; border: none; color: {{favorites_selected3}}; cursor: pointer; transform: translateY(0x); ">
         ▲
     </button>
     <button type="button"
-        onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/rss'"
+        onclick="window.location.href='/home/rss'"
         style="font-size: 2em; background: none; border: none; cursor: pointer; transform: translateY(5px);">
     <img src="/imgs/rss.png" alt="RSS Feed" style="width: 1em; height: 1em;">
     </button>
@@ -235,7 +235,7 @@
   </select>
   
     <button type="button"
-    onclick="window.location.href='/WebInfoAn2SpilevoiAnton/settings/index'"
+    onclick="window.location.href='/settings/index'"
     style="width: 36px; height: 36px; cfont-weight: bold;" class = "header-button">⚙
 </button>
 </header>
@@ -257,7 +257,7 @@ document.getElementById('searchForm').addEventListener('submit', function(e) {
   const type = document.getElementById('searchType').value;
 
   if (query) {
-    window.location.href = `/WebInfoAn2SpilevoiAnton/home/search/${type}/${encodeURIComponent(query)}`;
+    window.location.href = `/home/search/${type}/${encodeURIComponent(query)}`;
   }
 });
 
@@ -266,7 +266,7 @@ document.getElementById('searchButton').addEventListener('click', function () {
     const type = document.getElementById('searchType').value;
 
     if (query) {
-        window.location.href = `/WebInfoAn2SpilevoiAnton/home/search/${type}/${encodeURIComponent(query)}`;
+        window.location.href = `/home/search/${type}/${encodeURIComponent(query)}`;
     }
 });
 
@@ -276,7 +276,7 @@ function toggleFavorite(button) {
 
     button.classList.toggle('selected');
     
-    fetch('/WebInfoAn2SpilevoiAnton/api/favorite.php', {
+    fetch('/api/favorite.php', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -305,7 +305,7 @@ function toggleFavoriteExternal(button, link) {
     console.log(JSON.stringify({ external: true, link: link }));
     button.classList.toggle('selected');
     
-    fetch('/WebInfoAn2SpilevoiAnton/api/favorite.php', {
+    fetch('/api/favorite.php', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'

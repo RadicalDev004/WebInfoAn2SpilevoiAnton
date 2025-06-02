@@ -7,11 +7,11 @@ class ControllerAuth extends Controller {
         
         if ($actiune === "login") {
             if(!isset($_POST['username']) || !isset($_POST['password']))
-                header('Location: /WebInfoAn2SpilevoiAnton/auth/status');
+                header('Location: /auth/status');
             $this->login($_POST['username'], $_POST['password']);
         } elseif ($actiune === "logout") {
             setcookie('auth_token', '', time() - 3600, '/');
-            header('Location: /WebInfoAn2SpilevoiAnton/auth/status');
+            header('Location: /auth/status');
         } elseif ($actiune === "register") {
              $this->register($_POST['username'], $_POST['password']);
         } elseif ($actiune === "status") {
@@ -20,13 +20,13 @@ class ControllerAuth extends Controller {
             echo $html;
         }
         else {            
-            header('Location: /WebInfoAn2SpilevoiAnton/auth/status');
+            header('Location: /auth/status');
         }
     }
 
     public function login($username, $password) {
         if ($this->model->autentifica($username, $password)) {            
-            header("Location: /WebInfoAn2SpilevoiAnton/home/index");     
+            header("Location: /home/index");     
         } else {
             $this->view->incarcaDatele("Autentificare eșuată. Verifică datele.");
         }

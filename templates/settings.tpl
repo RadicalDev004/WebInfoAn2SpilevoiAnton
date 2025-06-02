@@ -99,7 +99,7 @@
 </head>
 <body>
     <header>
-            <button type="button" onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/index'" class="header-button back-button">←</button>
+            <button type="button" onclick="window.location.href='/home/index'" class="header-button back-button">←</button>
             <h1 class = "header-title">Setări</h1>
     </header>
 
@@ -111,8 +111,8 @@
         <div class="settings-item">💬 Recenzii: {{commentsCount}}</div>
         <div class="settings-item">⭐ Favorite: {{favoritesCount}}</div>
 
-        <a href="/WebInfoAn2SpilevoiAnton/auth/logout"><button class="action-btn">Logout</button></a>
-        <a href="/WebInfoAn2SpilevoiAnton/settings/export"><button class="action-btn">Export Date</button></a>
+        <a href="/auth/logout"><button class="action-btn">Logout</button></a>
+        <a href="/settings/export"><button class="action-btn">Export Date</button></a>
     </div>
 </body>
 </html>

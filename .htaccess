@@ -1,7 +1,7 @@
 RewriteEngine On
 RewriteBase /
 
-RewriteCond %{REQUEST_URI} ^/WebInfoAn2SpilevoiAnton/api/
+RewriteCond %{REQUEST_URI} ^/api/
 RewriteRule ^ - [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
