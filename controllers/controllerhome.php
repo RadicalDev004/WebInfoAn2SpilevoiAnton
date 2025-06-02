@@ -1,5 +1,7 @@
 <?php
 class ControllerHome extends Controller {
+    private $actiune;
+    private $parametri;
 
     public function __construct($actiune, $parametri) {
         parent::__construct();

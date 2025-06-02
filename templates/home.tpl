@@ -212,7 +212,7 @@
     <button type="button"
         onclick="window.location.href='/WebInfoAn2SpilevoiAnton/home/rss'"
         style="font-size: 2em; background: none; border: none; cursor: pointer; transform: translateY(5px);">
-    <img src="/WebInfoAn2SpilevoiAnton/imgs/rss.png" alt="RSS Feed" style="width: 1em; height: 1em;">
+    <img src="/imgs/rss.png" alt="RSS Feed" style="width: 1em; height: 1em;">
     </button>
 </div>
 

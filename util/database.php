@@ -6,13 +6,25 @@ class Database {
     private function __construct() {
 
         try {
-            $host = 'localhost';
-            $port = 5555;
-            $dbname = 'sgbd';
-            $user = 'postgres';
-            $pass = 'postgres';
+            $envUrl = getenv('DATABASE_URL');
+if ($envUrl) {
+    $url = parse_url($envUrl);
+    $host = $url['host'];
+    $port = $url['port'];
+    $dbname = ltrim($url['path'], '/');
+    $user = $url['user'];
+    $pass = $url['pass'];
+} else {
 
-            $dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
+    $host = 'host.docker.internal';
+    $port = 5432;
+    $dbname = 'sgbd';
+    $user = 'postgres';
+    $pass = 'postgres';
+}
+
+$dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
+$this->connection = new PDO($dsn, $user, $pass);
 
             $this->connection = new PDO($dsn, $user, $pass);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

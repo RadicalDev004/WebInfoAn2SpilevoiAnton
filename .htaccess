@@ -1,9 +1,11 @@
 RewriteEngine On
-RewriteBase /WebInfoAn2SpilevoiAnton/
+RewriteBase /
 
-RewriteCond %{REQUEST_URI} ^/WebInfoAn2SpilevoiAnton/api/
+# Allow direct access to API
+RewriteCond %{REQUEST_URI} ^/api/
 RewriteRule ^ - [L]
 
+# Route everything else through index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php [QSA,L]

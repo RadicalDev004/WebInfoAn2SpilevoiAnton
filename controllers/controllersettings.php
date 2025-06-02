@@ -1,6 +1,8 @@
 <?php
 
 class ControllerSettings extends Controller {
+    private $actiune;
+    private $parametri;
     public function __construct($actiune, $parametri) {
         parent::__construct();
         $this->actiune = $actiune;
