@@ -55,7 +55,7 @@ class ViewHome {
             $cardsHtml .= "
     <div class='book-card".($externalFav || $externalUnf || $externalTop ? " external-card" : "")."'>
         <div style='width: 100%; height: 250px; border-radius: 4px; overflow: hidden; margin-bottom: 0.5em;'>
-            <img src='".($data['volumeInfo']['imageLinks']['thumbnail'] ?? '')."' alt='Copertă'
+            <img src='".( ($externalFav || $externalUnf || $externalTop) ? ($data['volumeInfo']['imageLinks']['thumbnail'] ?? '') : '/imgs/'.$book['id'].'.jpg')."' alt='Copertă'
             style='width: 100%; height: 100%; object-fit: cover; display: block;'
          onerror=\"this.style.display='none'; this.parentElement.innerHTML='<div style=\\'width: 100%; height: 100%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #777; font-size: 1.2em;\\'>Copertă</div>';\">
         </div>

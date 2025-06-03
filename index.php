@@ -17,6 +17,7 @@ $paramList = array_slice($parts, 2);
 
 $controllerClass = 'Controller' . $controller;
 //echo $controllerClass;
+if($controller === "imgs") exit;
 if (class_exists($controllerClass)) {
     $ctrl = new $controllerClass($actiune, $paramList);
 } else {
