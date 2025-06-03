@@ -30,13 +30,13 @@ class ControllerAuth extends Controller {
         } else {
             $this->view->incarcaDatele("Autentificare eșuată. Verifică datele.");
         }
-        echo $this->view->oferaVizualizare();
+        echo $this->view->oferaVizualizare("Login");
     }
 
     public function logout() {
         $this->model->logout();
         $this->view->incarcaDatele("Ai fost delogat.");
-        echo $this->view->oferaVizualizare();
+        echo $this->view->oferaVizualizare("Logout");
     }
 
     public function verificaAutentificare() {
@@ -45,18 +45,18 @@ class ControllerAuth extends Controller {
         } else {
             $this->view->incarcaDatele("Niciun utilizator autentificat.");
         }
-        echo $this->view->oferaVizualizare();
+        echo $this->view->oferaVizualizare("");
     }
     
     public function register($username, $password) {
         if($this->model->inregistreaza($username, $password))
         {  
-            $this->view->incarcaDatele("Contul a fost înregistrat cu succes (simulat).");
+            $this->view->incarcaDatele("Contul a fost înregistrat cu succes.");
         }
         else {
             $this->view->incarcaDatele("Exista deja un cont cu acel username.");
         }
-        echo $this->view->oferaVizualizare();
+        echo $this->view->oferaVizualizare("Register");
     }
 
 }

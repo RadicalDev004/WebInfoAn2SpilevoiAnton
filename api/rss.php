@@ -14,7 +14,10 @@ $channel = $doc->createElement('channel');
 $rss->appendChild($channel);
 
 $channel->appendChild($doc->createElement('title', 'Catalog Cărți - Cel mai recent Top 10 + Ultimele Recenzii'));
-$channel->appendChild($doc->createElement('link', 'https://localhost/WebInfoAn2SpilevoiAnton'));
+$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
+$host = $_SERVER['HTTP_HOST'];
+$baseUrl = "$scheme://$host";
+$channel->appendChild($doc->createElement('link', $baseUrl));
 $channel->appendChild($doc->createElement('description', 'Top 10 cărți și ultimele 25 recenzii'));
 $channel->appendChild($doc->createElement('language', 'ro'));
 $channel->appendChild($doc->createElement('pubDate', date(DATE_RSS)));
@@ -38,13 +41,13 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $title = "";
     $description = "";
     if (!empty($row['link'])) {
-        $bookUrl = 'localhost/WebInfoAn2SpilevoiAnton/book/viewExternal/'.urlencode(base64_encode($row['link']));
+        $bookUrl = $baseUrl.'/book/viewExternal/'.urlencode(base64_encode($row['link']));
         $data = getExternalBookData($row['link']);
         $title = $data['volumeInfo']['title'] ?? "";
         $description =  $data['volumeInfo']['description'] ?? "";
         
     } else {
-        $bookUrl = 'localhost/WebInfoAn2SpilevoiAnton/book/view/'.$row['id'];
+        $bookUrl = $baseUrl.'/book/view/'.$row['id'];
     }
     
     $item = $doc->createElement('item');
@@ -70,11 +73,11 @@ $stmt = $db->query("
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $title = "";
     if (!empty($row['link'])) {
-        $bookUrl = 'localhost/WebInfoAn2SpilevoiAnton/book/viewExternal/'.urlencode(base64_encode($row['link']));
+        $bookUrl = $baseUrl.'/book/viewExternal/'.urlencode(base64_encode($row['link']));
         $data = getExternalBookData($row['link']);
         $title = $data['volumeInfo']['title'] ?? "";
     } else {
-        $bookUrl = 'localhost/WebInfoAn2SpilevoiAnton/book/view/'.$row['id'];
+        $bookUrl = $baseUrl.'/book/view/'.$row['id'];
     }
     
     $item = $doc->createElement('item');
