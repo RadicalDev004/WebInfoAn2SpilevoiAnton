@@ -113,7 +113,7 @@
 
         <a href="/auth/logout"><button class="action-btn">Logout</button></a>
         <a href="/settings/export"><button class="action-btn">Export Date</button></a>
-        <a href="/api/specs.html"><button class="action-btn">Specificații</button></a>
+        <a href="/api/spec.html"><button class="action-btn">Specificații</button></a>
     </div>
 </body>
 </html>
