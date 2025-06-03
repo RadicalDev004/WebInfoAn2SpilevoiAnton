@@ -52,7 +52,7 @@ class ViewBook {
                     '{{book_id}}' => $id,
                     '{{hide}}' => '',
                     '{{link}}' => '',
-                    '{{url_cover}}' =>'',
+                    '{{url_cover}}' =>'/imgs/'.$id.'.jpg',
                     '{{username}}' => $name,
                     '{{total_pages}}' => $pages,
                     '{{pages_read}}' => $progress,

@@ -14,7 +14,7 @@ $channel = $doc->createElement('channel');
 $rss->appendChild($channel);
 
 $channel->appendChild($doc->createElement('title', 'Catalog Cărți - Cel mai recent Top 10 + Ultimele Recenzii'));
-$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
+$scheme = is_https() ? "https" : "http";
 $host = $_SERVER['HTTP_HOST'];
 $baseUrl = "$scheme://$host";
 $channel->appendChild($doc->createElement('link', $baseUrl));
@@ -95,5 +95,11 @@ function getExternalBookData($link)
     $response = file_get_contents($link);
     $data = json_decode($response, true);
     return $data;
+}
+function is_https() {
+    return (
+        (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
+        (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+    );
 }
 ?>
