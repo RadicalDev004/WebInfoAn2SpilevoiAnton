@@ -118,7 +118,7 @@ class ViewHome {
             $cnt = $cnt + 1;
         }
         //debug::printArray($externalBooks);
-        if(!empty($externalBooks))
+        if(!empty($externalBooks) && isset($externalBooks['items']) && is_array($externalBooks['items']))
         foreach ($externalBooks['items'] as $book) {
             $fav = $model->isBookFavoriteLink($book['selfLink']);
             $progressPercent = ($book['volumeInfo']['pageCount'] ?? 0) == 0 ? 0 : $model->getExternalBookProgress($book['selfLink']) / $book['volumeInfo']['pageCount'] * 100;

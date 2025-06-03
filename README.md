@@ -2,6 +2,11 @@
 
 Proiect TW Uaic info an 2 sem 2 Spilevoi Bogdan si Anton Cosmin
 
+# Link Demonstratie (unlisted, a se apăsa pentru vizionare):
+
+[![Watch the video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://youtu.be/zKxVIO6AudE)
+
+
 # Prezentare Arhitectură - Aplicație Gestiune Cărți 
 
 Books on Web
