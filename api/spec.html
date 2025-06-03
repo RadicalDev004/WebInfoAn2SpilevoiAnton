@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ro" prefix="schema: http://schema.org/">
+<head>
+  <meta charset="UTF-8">
+  <title>Specificații Funcționale - Aplicație de Gestiune a Cărților</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://w3id.org/scholarly-html/style.css">
+</head>
+<body typeof="schema:ScholarlyArticle" resource="#article" about="#article">
+
+  <header>
+    <h1 property="schema:name">Specificații Funcționale - Aplicație de Gestiune a Cărților</h1>
+    <p>Autori: <span property="schema:author">Șpilevoi Bogdan, Anton Cosmin</span></p>
+    <p>Data: <time property="schema:datePublished" datetime="2025-06-03">3 iunie 2025</time></p>
+  </header>
+
+  <section typeof="schema:Abstract" resource="#abstract">
+    <h2>Rezumat</h2>
+    <p property="schema:description">
+      Aplicația web dezvoltată urmează arhitectura MVC și oferă utilizatorilor posibilitatea de a se autentifica, vizualiza, urmări progresul, adăuga și salva cărți în lista lor de favorite. Acest document descrie funcționalitățile esențiale ale sistemului și interacțiunea cu utilizatorul, conform șablonului IEEE SRS.
+    </p>
+  </section>
+
+  <section>
+    <h2>1. Introducere</h2>
+    <p>
+      Aplicația are ca scop oferirea unei platforme web prin care utilizatorii pot gestiona o colecție personalizată de cărți. Utilizatorii se pot autentifica, naviga printre cărți, salva favorite și accesa setări personale.
+    </p>
+  </section>
+
+  <section>
+    <h2>2. Funcționalități esențiale</h2>
+    <ul>
+      <li><strong>2.1 Autentificare:</strong> utilizatorii pot crea/loga cu conturile lor (controller: <code>controllerauth.php</code>, model: <code>modelauth.php</code>, view: <code>auth.tpl</code>).</li>
+      <li><strong>2.2 Vizualizare cărți:</strong> lista cărților disponibile poate fi explorată (controller: <code>controllerbook.php</code>, model: <code>modelbook.php</code>, view: <code>book.tpl</code>).</li>
+      <li><strong>2.3 Vizualizare cărți externe:</strong> aplicația conține și cărti provenite din serviciul API extern GoogleBooks.</li>
+      <li><strong>2.4 Căutare cărți:</strong> aplicația permite căutarea de cărți dupa mai multe criterii (titlu, autor, editură, an) prin ambele biblioteci (internă, externă).</li>
+      <li><strong>2.5 Favorite:</strong> utilizatorii pot adăuga cărți în lista de favorite (<code>favorite.php</code>).</li>
+      <li><strong>2.6 Citire carte:</strong> utilizatorul poate "citi" pagini din fiecare carte, aplicația ținând minte progresul, fie că este o carte din librăria locala sau externă.</li>
+      <li><strong>2.7 Oferire recenzie:</strong> utilizatorii pot lasa recenzii la carti, cu un maxim de 5 stele plus un text descriptiv al experientei.</li>
+      <li><strong>2.8 Rss:</strong> aplicația ofera un flux RSS cu ultimele informatii despre: Cel mai recent top 10 carți, Top 25 cele mai recente recenzii.</li>
+      <li><strong>2.9 Setări cont:</strong> Vizualizarea datelor personale se realizează printr-un modul separat (<code>controllersettings.php</code>, <code>modelsettings.php</code>, <code>settings.tpl</code>).</li>
+      <li><strong>2.10 Vizualizare/exportare a datelor contului:</strong> utilizatorul poate viziona o versiune succintă a datelor sale în aplicație (setări) sau poate downloada in format CSV o versiune extensivă.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Interacțiunea cu utilizatorul</h2>
+    <p>Interfața este împărțită în mai multe componente (views) care se încarcă în funcție de acțiunea utilizatorului. Navigarea se face prin linkuri în bara de meniu, iar interacțiunile (ex: adăugarea la favorite) sunt procesate prin request-uri către api-ul PHP.</p>
+    <ul>
+      <li><strong>3.1 Formular de autentificare/logare:</strong> permite logarea și crearea unui cont nou.</li>
+      <li><strong>3.2 Pagina de start:</strong> (<code>controllerhome.php</code>, <code>home.tpl</code>) oferă acces rapid la cărți, favorite, neterminate, top cărți și rss.</li>     
+      <li><strong>3.3 Pagina de setări:</strong> permite de-logarea și vizualizarea/exportarea datelor contului.</li>
+      <li><strong>3.4 Pagina de vizualizare a unei cărți:</strong> permite interacțiunea cu o anumită carte.</li>
+      <li><strong>3.5 Pagina de admin:</strong> permite administrarea datelor din baza de date a aplicației.</li>
+      <li><strong>3.6 Pagini dinamice:</strong> fiecare acțiune trimite date către un controller, care apelează un model și apoi încarcă o pagină .tpl.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Arhitectură tehnică</h2>
+    <p>4.1 Proiectul respectă principiile MVC:</p>
+    <ul>
+      <li><strong>Model:</strong> manipularea datelor (fișierele <code>model*.php</code>).</li>
+      <li><strong>View:</strong> afișarea datelor HTML în fișierele <code>*.tpl</code>.</li>
+      <li><strong>Controller:</strong> logica de legătură între view și model (<code>controller*.php</code>).</li>
+    </ul>
+    <p>4.2 Proiectul apelează API-uri proprii:</p>
+    <ul>
+        <li><strong>/api/favorite</strong> adăugarea unei cărți la favorite (fișierul<code>favorite.php</code>).</li>
+        <li><strong>/api/read</strong> adăugarea de pagini la progresul unei cărți. (fișierul<code>read.php</code>).</li>
+        <li><strong>/api/review</strong> adăugarea unei recenzii la o carte, (fișierul<code>review.php</code>).</li>
+        <li><strong>/api/rss</strong> facilitarea fluxului rss. (fișierul<code>rss.php</code>).</li>
+        <li><strong>/api/addentry</strong> adăugarea unei linii in o tabelă din baza de date. (fișierul<code>addentry.php</code>).</li>
+        <li><strong>/api/deleteentry</strong> ștergerea unei linii in o tabelă din baza de date. (fișierul<code>deleteentry.php</code>).</li>
+      </ul>
+  </section>
+  <section>
+    <h2>5. Cerințe nefuncționale</h2>
+    <ul>
+      <li><strong>5.1 Performanță:</strong> Aplicația va răspunde în maximum 2 secunde la orice solicitare utilizator autenticat, inclusiv căutări sau accesări de cărți.</li>
+      <li><strong>5.2 Securitate:</strong> Datele utilizatorului (autentificare, favorite, recenzii) sunt protejate prin sesiuni PHP, criptare parole și validare server-side.</li>
+      <li><strong>5.3 Portabilitate:</strong> Aplicația este compatibilă cu browsere moderne (Chrome, Firefox, Edge) și poate fi rulată local sau pe servere de tip Apache/Nginx.</li>
+      <li><strong>5.4 Extensibilitate:</strong> Structura modulară MVC permite adăugarea facilă de noi funcționalități și API-uri fără a afecta componentele existente.</li>
+      <li><strong>5.5 Disponibilitate:</strong> Sistemul trebuie să fie accesibil minim 99% din timp într-un mediu de producție.</li>
+    </ul>
+  </section>
+  
+  <section>
+    <h2>6. Glosar de termeni</h2>
+    <dl>
+      <dt><strong>MVC</strong></dt>
+      <dd>Model-View-Controller, o arhitectură software care separă logica de business (model), interfața utilizator (view) și logica aplicației (controller).</dd>
+  
+      <dt><strong>API</strong></dt>
+      <dd>Interfață de programare a aplicației care permite comunicația între diferite componente software.</dd>
+  
+      <dt><strong>RSS</strong></dt>
+      <dd>Really Simple Syndication – tehnologie care oferă un flux actualizat de conținut, cum ar fi știri sau recenzii.</dd>
+  
+      <dt><strong>CSV</strong></dt>
+      <dd>Comma-Separated Values – format text utilizat pentru stocarea datelor tabulare în fișiere.</dd>
+  
+      <dt><strong>Recenzie</strong></dt>
+      <dd>Evaluare scrisă și/sau notată a unei cărți de către utilizator, reflectând experiența sa de lectură.</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>7. Concluzie</h2>
+    <p>Aplicația oferă o interfață simplă și intuitivă pentru gestionarea cărților favorite, respectând o arhitectură clară și extensibilă. Specificațiile prezentate permit dezvoltarea și testarea coerentă a aplicației.</p>
+  </section>
+
+</body>
+</html>
