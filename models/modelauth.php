@@ -12,13 +12,8 @@ class ModelAuth {
                 password TEXT NOT NULL
             );
         ");
-        setcookie('is_admin', '0', [
-                    'expires' => time() + 3600,
-                    'path' => '/',
-                    'secure' => true,
-                    'httponly' => true,
-                    'samesite' => 'Strict'
-                ]);
+
+        
     }
 
     public function autentifica($username, $password) {       
@@ -27,19 +22,26 @@ class ModelAuth {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if($username === "admin" && $password === "admin")
-        {
-            if ($username === 'admin' && $password === 'admin') {
-                setcookie('is_admin', '1', [
+        {          
+            setcookie('is_admin', '1', [
+                'expires' => time() + 3600,
+                'path' => '/',
+                'secure' => $this->is_https(),
+                'httponly' => true,
+                'samesite' => 'Strict'
+            ]);
+            header("Location: /admin/index");
+            exit;
+    
+        }
+        else{
+            setcookie('is_admin', '0', [
                     'expires' => time() + 3600,
                     'path' => '/',
-                    'secure' => true,
+                    'secure' => $this->is_https(),
                     'httponly' => true,
                     'samesite' => 'Strict'
                 ]);
-                
-                header("Location: /admin/index");
-                exit;
-            }
         }
 
         if ($row && password_verify($password, $row['password'])) {
@@ -51,7 +53,7 @@ class ModelAuth {
             setcookie('auth_token', $jwt, [
                 'expires' => time() + 3600,
                 'path' => '/',
-                'secure' => true,
+                'secure' => $this->is_https(),
                 'httponly' => true,
                 'samesite' => 'Strict'
             ]);
@@ -76,4 +78,11 @@ class ModelAuth {
     public function logout() {
         session_destroy();
     }
+
+    function is_https() {
+    return (
+        (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
+        (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+    );
+}
 }

@@ -2,6 +2,7 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
     <style>
         body {
@@ -45,7 +46,6 @@
             color: white;
             font-size: 1.2em;
             padding: 0.4em 0.6em;
-            cursor: pointer;
             cursor: pointer;
             transition: background-color 0.3s ease, border-color 0.3s ease;
         }

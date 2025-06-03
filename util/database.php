@@ -26,7 +26,7 @@ if ($envUrl) {
     $pass = 'postgres';
 }
 
-            $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
+            $dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
             //echo $dsn."<br>";
 
             $this->connection = new PDO($dsn, $user, $pass);

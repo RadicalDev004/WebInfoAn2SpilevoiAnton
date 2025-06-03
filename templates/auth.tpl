@@ -30,6 +30,11 @@
     border: 1px solid #1e3a5f;
     transition: all 0.3s ease-in-out;
 }
+@media (max-width: 400px) {
+    .container {
+        padding: 20px;
+    }
+}
 
 h2 {
     text-align: center;
