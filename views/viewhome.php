@@ -53,67 +53,83 @@ class ViewHome {
             if($progressPercent == 0) $progressPercent = 1;
             if($stars == 0) $stars = '-';
             $cardsHtml .= "
-    <div class='book-card".($externalFav || $externalUnf || $externalTop ? " external-card" : "")."'>
-        <div style='width: 100%; height: 250px; border-radius: 4px; overflow: hidden; margin-bottom: 0.5em;'>
-            <img src='".( ($externalFav || $externalUnf || $externalTop) ? ($data['volumeInfo']['imageLinks']['thumbnail'] ?? '') : '/imgs/'.$book['id'].'.jpg')."' alt='Copertă'
-            style='width: 100%; height: 100%; object-fit: cover; display: block;'
-         onerror=\"this.style.display='none'; this.parentElement.innerHTML='<div style=\\'width: 100%; height: 100%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #777; font-size: 1.2em;\\'>Copertă</div>';\">
-        </div>
-
-        <h3>" . htmlspecialchars($externalFav || $externalUnf || $externalTop  ? ($data['volumeInfo']['title'] ?? '') : $book['title']) . "</h3>
-        <p><strong>Autor:</strong> " . htmlspecialchars($externalFav || $externalUnf || $externalTop  ? ($data['volumeInfo']['authors'][0] ?? '-') : $book['author']) . "</p>
-        <p><strong>An:</strong> " . htmlspecialchars($externalFav || $externalUnf || $externalTop  ? ($data['volumeInfo']['publishedDate'] ?? '-') : $book['year']) . "</p>
-        <p><strong>Editura:</strong> " . htmlspecialchars($externalFav || $externalUnf || $externalTop  ? ($data['volumeInfo']['publisher'] ?? '-' ) : $book['publisher']) . "</p>
-        <p style='color: gold;'><strong style='color: white;'>Rating: </strong><b>$stars</b>/5★</p>
-
-        <!-- Progress Slider -->
-        <div style='display: flex; align-items: center; gap: 0.5em; margin-top: 10px;'>
-    <input type='range' min='0' max='100' value='" . $progressPercent . "'
-           style='
-               flex: 1;
-               pointer-events: none;
-               appearance: none;
-               height: 8px;
-               border-radius: 5px;
-               background: linear-gradient(to right,rgb(17, 132, 247) " . $progressPercent . "%, #ffffff " . $progressPercent . "%);
-           ' />
-</div>
-
-
-        <div style='display: flex; justify-content: space-between; align-items: center; margin-top: 10px;'>
-            <a href=".($externalFav || $externalUnf || $externalTop  
-            ? "'/book/viewExternal/" . urlencode(base64_encode($book['link']))  
-            : "'/book/view/" . urlencode($book['id'])) . "'>
-            <button style='
-                padding: 0.4em 1em;
-                background-color: rgb(37, 99, 235);
-                border: none;
-                color: white;
-                border-radius: 6px;
-                font-weight: bold;
-                font-size: 0.9em;
-                cursor: pointer;
-                transition: background-color 0.3s ease, transform 0.2s ease;
-                transform: translateY(0px);
-            ' 
-            onmouseover=\"this.style.backgroundColor='#3b82f6'; this.style.transform='translateY(-2px)';\" 
-            onmouseout=\"this.style.backgroundColor='#2563eb'; this.style.transform='translateY(0)';\">
-                Vezi detalii
-            </button>
-            </a>
-
-            <button type='button' style='font-size: 2em;'
-                class='star-button $selectedClass'
-                onclick='toggleFavorite(this)'
-                data-book-id='" . $book['id'] . "'>
-                ★
-            </button>
-        </div>".($externalFav || $externalUnf || $externalTop  ? "<div class='link-extern'>
-        <a href='".($data['volumeInfo']['infoLink'] ?? '')."' target='_blank' rel='noopener noreferrer'>
-            <button>Link extern</button>
-        </a> </div>" : "")."
+<div class='book-card" . ($externalFav || $externalUnf || $externalTop ? " external-card" : "") . "'>
+    <div style='width: 100%; height: 250px; border-radius: 4px; overflow: hidden; margin-bottom: 0.5em;'>
+        <img src='" . (($externalFav || $externalUnf || $externalTop) ? ($data['volumeInfo']['imageLinks']['thumbnail'] ?? '') : '/imgs/' . $book['id'] . '.jpg') . "' alt='Copertă'
+        style='width: 100%; height: 100%; object-fit: cover; display: block;'
+        onerror=\"this.style.display='none'; this.parentElement.innerHTML='<div style=\\'width: 100%; height: 100%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #777; font-size: 1.2em;\\'>Copertă</div>';\">
     </div>
+
+    <h3>" . htmlspecialchars($externalFav || $externalUnf || $externalTop ? ($data['volumeInfo']['title'] ?? '') : $book['title']) . "</h3>
+    <p><strong>Autor:</strong> " . htmlspecialchars($externalFav || $externalUnf || $externalTop ? ($data['volumeInfo']['authors'][0] ?? '-') : $book['author']) . "</p>
+    <p><strong>An:</strong> " . htmlspecialchars($externalFav || $externalUnf || $externalTop ? ($data['volumeInfo']['publishedDate'] ?? '-') : $book['year']) . "</p>
+    <p><strong>Editura:</strong> " . htmlspecialchars($externalFav || $externalUnf || $externalTop ? ($data['volumeInfo']['publisher'] ?? '-') : $book['publisher']) . "</p>
+    <p style='color: gold;'><strong style='color: white;'>Rating: </strong><b>$stars</b>/5★</p>
+
+    <div style='display: flex; align-items: center; gap: 0.5em; margin-top: 10px;'>
+        <input type='range' min='0' max='100' value='" . $progressPercent . "'
+            style='
+                flex: 1;
+                pointer-events: none;
+                appearance: none;
+                height: 8px;
+                border-radius: 5px;
+                background: linear-gradient(to right,rgb(17, 132, 247) " . $progressPercent . "%, #ffffff " . $progressPercent . "%);
+            '>
+    </div>
+
+    <div style='display: flex; justify-content: space-between; align-items: center; margin-top: 10px;'>
+        <a href=" . ($externalFav || $externalUnf || $externalTop
+        ? "'/book/viewExternal/" . urlencode(base64_encode($book['link'])) . "'"
+        : "'/book/view/" . urlencode($book['id']) . "'") . " 
+        style='
+            padding: 0.4em 1em;
+            background-color: rgb(37, 99, 235);
+            border: none;
+            color: white;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            transform: translateY(0px);
+        '
+        onmouseover=\"this.style.backgroundColor='#3b82f6'; this.style.transform='translateY(-2px)';\" 
+        onmouseout=\"this.style.backgroundColor='rgb(37, 99, 235)'; this.style.transform='translateY(0)';\">
+            Vezi detalii
+        </a>
+
+        <button type='button' style='font-size: 2em;'
+            class='star-button $selectedClass'
+            onclick='toggleFavorite(this)'
+            data-book-id='" . $book['id'] . "'>
+            ★
+        </button>
+    </div>" . (
+        $externalFav || $externalUnf || $externalTop ? "
+    <div class='link-extern'>
+        <a href='" . ($data['volumeInfo']['infoLink'] ?? '') . "' target='_blank' rel='noopener noreferrer' 
+        style='
+            display: block;
+            width: 95%;
+            margin: 1em auto 0;
+            text-align: center;
+            background-color: #1e3a5f;
+            color: white;
+            padding: 0.5em 1em;
+            border-radius: 6px;
+            text-decoration: none;
+        '>
+            Link extern
+        </a>
+    </div>" : ""
+    ) . "
+</div>
 ";
+
 
             $cnt = $cnt + 1;
         }
@@ -128,29 +144,34 @@ class ViewHome {
             if($progressPercent == 0) $progressPercent = 1;
             $selectedClass = $fav ? 'selected' : '';
             $extraCardsHtml .= "
-    <div class='book-card external-card'>
-        <div style='width: 100%; height: 250px; border-radius: 4px; overflow: hidden; margin-bottom: 0.5em;'>
-            <img src='".($book['volumeInfo']['imageLinks']['thumbnail'] ?? '')."' alt='Copertă'
+<div class='book-card external-card'>
+    <div style='width: 100%; height: 250px; border-radius: 4px; overflow: hidden; margin-bottom: 0.5em;'>
+        <img src='" . ($book['volumeInfo']['imageLinks']['thumbnail'] ?? '') . "' alt='Copertă'
             style='width: 100%; height: 100%; object-fit: cover; display: block;'
-         onerror=\"this.style.display='none'; this.parentElement.innerHTML='<div style=\\'width: 100%; height: 100%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #777; font-size: 1.2em;\\'>Copertă</div>';\">
-        </div>
+            onerror=\"this.style.display='none'; this.parentElement.innerHTML='<div style=\\'width: 100%; height: 100%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #777; font-size: 1.2em;\\'>Copertă</div>';\">
+    </div>
 
-        <h3>" . ($book['volumeInfo']['title'] ?? '-') . "</h3>
-        <p><strong>Autor:</strong> " . ($book['volumeInfo']['authors'][0] ?? '-') . "</p>
-        <p><strong>An:</strong> " . ($book['volumeInfo']['publishedDate'] ?? '-') . "</p>
-        <p><strong>Editura:</strong> " . ($book['volumeInfo']['publisher'] ?? '-') . "</p>
-        <p style='color: gold;'><strong style='color: white;'>Rating: </strong><b>$stars</b>/5★</p>
-        
-        <!-- Progress Slider -->
-        <div style='display: flex; align-items: center; gap: 0.5em; margin-top: 10px;'>
-            <input type='range' min='0' max='100' value='" . $progressPercent . "'
-                   style='flex: 1; pointer-events: none; appearance: none; height: 8px; border-radius: 5px;
-                          background: linear-gradient(to right, #0073e6 " . $progressPercent . "%, #e0e0e0 " . $progressPercent . "%);' />
-        </div>
+    <h3>" . htmlspecialchars($book['volumeInfo']['title'] ?? '-') . "</h3>
+    <p><strong>Autor:</strong> " . htmlspecialchars($book['volumeInfo']['authors'][0] ?? '-') . "</p>
+    <p><strong>An:</strong> " . htmlspecialchars($book['volumeInfo']['publishedDate'] ?? '-') . "</p>
+    <p><strong>Editura:</strong> " . htmlspecialchars($book['volumeInfo']['publisher'] ?? '-') . "</p>
+    <p style='color: gold;'><strong style='color: white;'>Rating: </strong><b>$stars</b>/5★</p>
 
-        <div style='display: flex; justify-content: space-between; align-items: center; margin-top: 10px;'>
-            <a href='/book/viewExternal/" . urlencode(base64_encode($book['selfLink'])) . "'>
-                <button style='
+    <div style='display: flex; align-items: center; gap: 0.5em; margin-top: 10px;'>
+        <input type='range' min='0' max='100' value='" . $progressPercent . "'
+            style='
+                flex: 1;
+                pointer-events: none;
+                appearance: none;
+                height: 8px;
+                border-radius: 5px;
+                background: linear-gradient(to right, #0073e6 " . $progressPercent . "%, #e0e0e0 " . $progressPercent . "%);
+            '>
+    </div>
+
+    <div style='display: flex; justify-content: space-between; align-items: center; margin-top: 10px;'>
+        <a href='/book/viewExternal/" . urlencode(base64_encode($book['selfLink'])) . "'
+            style='
                 padding: 0.4em 1em;
                 background-color: rgb(37, 99, 235);
                 border: none;
@@ -160,26 +181,43 @@ class ViewHome {
                 font-size: 0.9em;
                 cursor: pointer;
                 transition: background-color 0.3s ease, transform 0.2s ease;
+                display: inline-block;
+                text-align: center;
+                text-decoration: none;
                 transform: translateY(0px);
-            ' >Vezi detalii</button>
-            </a>
-            
-            <button type='button' style='font-size: 2em;'
-                class='star-button $selectedClass'
-                onclick='toggleFavoriteExternal(this, \"".$book['selfLink']."\" )'
-                data-book-id='external'>
-                ★
-            </button>
-        </div>
-        
-        <div class='link-extern'>
-        <a href='".($book['volumeInfo']['infoLink'] ?? '')."' target='_blank' rel='noopener noreferrer'>
-            <button>Link extern</button>
+            '
+            onmouseover=\"this.style.backgroundColor='#3b82f6'; this.style.transform='translateY(-2px)';\" 
+            onmouseout=\"this.style.backgroundColor='rgb(37, 99, 235)'; this.style.transform='translateY(0)';\">
+            Vezi detalii
+        </a>
+
+        <button type='button' style='font-size: 2em;'
+            class='star-button $selectedClass'
+            onclick='toggleFavoriteExternal(this, \"" . $book['selfLink'] . "\")'
+            data-book-id='external'>
+            ★
+        </button>
+    </div>
+
+    <div class='link-extern' style='margin-top: 10px;'>
+        <a href='" . ($book['volumeInfo']['infoLink'] ?? '#') . "' target='_blank' rel='noopener noreferrer'
+            style='
+                display: block;
+                width: 75%;
+                margin: 1em auto 0;
+                text-align: center;
+                background-color: #1e3a5f;
+                color: white;
+                padding: 0.3em 1em;
+                border-radius: 6px;
+                text-decoration: none;
+            '>
+            Link extern
         </a>
     </div>
-        
-    </div>
+</div>
 ";
+
         }
         $backfromsearch = "<button type='button'
             onclick=\"window.location.href='/home/index'\"

@@ -196,7 +196,7 @@
 
     
 input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none; 
+    -webkit-appearance: none;
     appearance: none;
     width: 0;
     height: 0;
@@ -225,6 +225,10 @@ input[type=range]::-ms-thumb {
 </style>
 
 </head>
+
+
+
+<body>
 <header class="book-header">
     <button type="button" onclick="window.location.href='/home/index'" class="header-button back-button">←</button>
 
@@ -232,12 +236,7 @@ input[type=range]::-ms-thumb {
 
     <button type="button" onclick="window.location.href='/settings/index'" class="header-button settings-button">⚙</button>
 </header>
-
-
-
 <br><br>
-<body>
-
     <div class="book-container">
         <div class='book-cover'>
         <div style='width: 100%; height: 300px; border-radius: 4px; overflow: hidden; margin-bottom: 0em;'>
@@ -258,7 +257,7 @@ input[type=range]::-ms-thumb {
     </div>
     
         <div class="progress-box" {{hide}}>
-    <h3 style="color:rgb(118, 194, 245);">Progres lectură</h3
+    <h3 style="color:rgb(118, 194, 245);">Progres lectură</h3>
     <div style="display: flex; align-items: center; justify-content: space-between; gap: 1em; flex-wrap: wrap;">
         <div style="flex: 1; display: flex; align-items: center; gap: 0.8em;">
             <span id="totalPagesLabel">{{pages_read}}</span>
@@ -322,6 +321,7 @@ function submitReview(event) {
     
     fetch('/api/review.php', {
     method: 'POST',
+    credentials: 'include',
     headers: {
         'Content-Type': 'application/json'
     },
@@ -381,10 +381,14 @@ function updateProgressAsync()
         return;
     }
     
+    console.log('AAAAAAAAAAA');
+    console.log(getCookie('auth_token'));
+    
     updateProgress(pagesRead);
     
     fetch('/api/read.php', {
     method: 'POST',
+    credentials: 'include',
     headers: {
         'Content-Type': 'application/json'
     },
@@ -406,6 +410,23 @@ function updateProgressAsync()
      
 });
 }
+function getCookie(cname) {
+    console.log(document.cookie);
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
 updateProgress(0);
 </script>
     <br><br>

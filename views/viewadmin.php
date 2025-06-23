@@ -54,7 +54,7 @@ class ViewAdmin {
         
             foreach ($columns as $col) {
                 $formFields .= '<label>' . htmlspecialchars($col ?? '') . ': ';
-                $formFields .= '<input name="' . htmlspecialchars($col ?? '') . '" type="text" /></label><br/>';
+                $formFields .= '<input name="' . htmlspecialchars($col ?? '') . '" type="text" ></label>';
             }
         
             $addEntryForm  = '<div id="entry-form" style="display:none; margin-top:20px; border:1px solid #ccc; padding:10px;">';

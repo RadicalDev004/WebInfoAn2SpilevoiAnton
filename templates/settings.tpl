@@ -15,12 +15,12 @@
 
         header {
             background: #1e3a5f;
-             position: relative;
-        color: white;
-        padding: 2em;
-        text-align: center;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            color: white;
+            padding: 2em;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .header-left {
@@ -28,6 +28,7 @@
             align-items: center;
             gap: 1em;
         }
+
         .header-title {
             margin: 0;
             font-size: 1.5em;
@@ -41,7 +42,6 @@
             transform: translateY(-50%);
             border-radius: 6px;
             background-color: transparent;
-            color: #1e3a5f;
             border: 2px solid #ffffff55;
             color: white;
             font-size: 1.2em;
@@ -53,6 +53,10 @@
         .header-button:hover {
             background-color: #3b82f6;
             color: white;
+        }
+
+        .back-button {
+            left: 1em;
         }
 
         .settings-container {
@@ -76,11 +80,9 @@
             margin: 1em 0;
             font-size: 1.2em;
         }
-        .back-button {
-            left: 1em;
-        }
 
         .action-btn {
+            display: inline-block;
             margin-top: 1.2em;
             padding: 0.6em 1.2em;
             background-color: #2563eb;
@@ -90,6 +92,8 @@
             cursor: pointer;
             font-weight: bold;
             transition: background-color 0.3s ease;
+            text-decoration: none;
+            font-size: 1em;
         }
 
         .action-btn:hover {
@@ -99,8 +103,8 @@
 </head>
 <body>
     <header>
-            <button type="button" onclick="window.location.href='/home/index'" class="header-button back-button">←</button>
-            <h1 class = "header-title">Setări</h1>
+        <button type="button" onclick="window.location.href='/home/index'" class="header-button back-button">←</button>
+        <h1 class="header-title">Setări</h1>
     </header>
 
     <div class="settings-container">
@@ -111,9 +115,9 @@
         <div class="settings-item">💬 Recenzii: {{commentsCount}}</div>
         <div class="settings-item">⭐ Favorite: {{favoritesCount}}</div>
 
-        <a href="/auth/logout"><button class="action-btn">Logout</button></a>
-        <a href="/settings/export"><button class="action-btn">Export Date</button></a>
-        <a href="/api/spec.html"><button class="action-btn">Specificații</button></a>
+        <a href="/auth/logout" class="action-btn">Logout</a>
+        <a href="/settings/export" class="action-btn">Export Date</a>
+        <a href="/api/spec.html" class="action-btn">Specificații</a>
     </div>
 </body>
 </html>
