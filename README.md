@@ -38,9 +38,9 @@ Arhitectura este construită pe modelul **MVC (Model-View-Controller)** și incl
 
 | Container     | Rol principal                                  | Limbaj / Tehnologie         |
 |---------------|------------------------------------------------|-----------------------------|
-| **Frontend**  | Interfața utilizator (HTML, CSS)               | HTML + TPL + Scholarly HTML|
+| **Frontend**  | Interfața utilizator (HTML, CSS)               | HTML + TPL + CSS            |
 | **Backend**   | Logica aplicației și gestionarea datelor       | PHP                         |
-| **Bază de date** | Persistența datelor (cărți, utilizatori etc.) | MySQL / MariaDB             |
+| **Bază de date** | Persistența datelor (cărți, utilizatori etc.) | Postgres                  |
 | **API extern**| Serviciul Google Books                         | REST API JSON               |
 
 ---
@@ -89,9 +89,9 @@ Logica este împărțită în clase și funcții cu responsabilități clare, re
 
 ## 📦 Tehnologii utilizate
 
-- PHP 7/8
-- MySQL / MariaDB
-- HTML5 + CSS3
+- PHP 8
+- Postgres
+- HTML5 + CSS
 - Scholarly HTML (pentru documentație)
 - Google Books API (REST)
 - RSS (XML feed)
